@@ -53,7 +53,7 @@ function Logo({ size = 36, showWordmark = true, className }: LogoProps) {
         <circle cx="44.4" cy="17.2" r="2" fill="var(--fs-cyan)" />
       </svg>
       {showWordmark ? (
-        <span className="text-xl font-extrabold tracking-tight text-foreground">
+        <span className="text-lg font-extrabold tracking-tight text-foreground sm:text-xl">
           Flame<span className="text-ember">Sight</span>
         </span>
       ) : null}
