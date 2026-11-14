@@ -118,3 +118,16 @@ Stub mode is **on** unless `NEXT_PUBLIC_USE_STUB` is exactly `false`, so a missi
 | Stub Ask routing | keywords: "moon" or "30%" → answer 1, "saffire" or "bass" → answer 2, "smoke" → answer 3, anything else → not in the data |
 | Stub latency | random 400 to 900 ms |
 | Stub content | every record has `"sample": true`; finding-like text starts with `[SAMPLE]`; all numbers are invented placeholders |
+
+## Explore filter gaps (M4)
+
+The Explore page applies every filter client-side as well (`src/lib/filters.ts`), so results are correct even where the backend has no matching param. Gaps to confirm or close on the backend:
+
+| Item | Assumed value | Status | Owner to confirm |
+|---|---|---|---|
+| Multi-select `pillar` | Backend takes one value. Front end sends `pillar` only when exactly one is selected; multi-select filtered client-side. Could become `pillar=a,b` | assumed | Thejitha |
+| Multi-select `fuel_class` | Same as pillar: sent only when exactly one is selected | assumed | Thejitha |
+| `platform` filter | No backend param. Investigations have no platform field, so an investigation matches when any of its tests ran on the selected platform (derived from `/tests`). Could become `platform=iss,drop_tower` | assumed | Thejitha |
+| Facets (hardware list, pressure bounds) | Derived client-side from unfiltered `/investigations` and `/tests` | assumed | Thejitha |
+| CSV `dataset_status` column | Stub CSV adds `dataset_status = "v0.1, preliminary / unverified"` on every row. Live `/export/csv` should add the same column | assumed | Thejitha |
+| CSV fuel-class view | When the per-test fuel-class switch is set, the CSV request sends that `fuel_class` | assumed | Thejitha |
