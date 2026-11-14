@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { SlidersHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -16,6 +16,7 @@ import {
   type ExploreFilters,
   type NumRange,
 } from "@/lib/filters";
+import { useCloseOnBack } from "@/lib/use-close-on-back";
 import { Filters } from "./Filters";
 
 type MobileFiltersProps = {
@@ -30,6 +31,10 @@ function MobileFilters({ value, onApply, hardwareOptions, pressureBounds }: Mobi
   const [open, setOpen] = useState(false);
   const [draft, setDraft] = useState(value);
   const count = activeFilterCount(value);
+  const release = useCloseOnBack(
+    open,
+    useCallback(() => setOpen(false), []),
+  );
 
   return (
     <Sheet
@@ -87,6 +92,7 @@ function MobileFilters({ value, onApply, hardwareOptions, pressureBounds }: Mobi
             size="xl"
             className="flex-1 rounded-xl"
             onClick={() => {
+              release();
               onApply(draft);
               setOpen(false);
             }}

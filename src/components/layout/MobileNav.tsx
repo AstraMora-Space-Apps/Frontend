@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu } from "lucide-react";
@@ -13,14 +13,19 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { useCloseOnBack } from "@/lib/use-close-on-back";
 import { cn } from "@/lib/utils";
 import { Logo } from "./Logo";
 import { NAV_ITEMS, isActive } from "./nav";
 
-/** Mobile drawer (below lg). Base UI Dialog provides focus trap, Esc to close, focus return. */
+/** Mobile drawer (below lg). Base UI Dialog provides focus trap, Esc to close, focus return; the back gesture also closes it. */
 function MobileNav() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
+  const release = useCloseOnBack(
+    open,
+    useCallback(() => setOpen(false), []),
+  );
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger
@@ -53,7 +58,10 @@ function MobileNav() {
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    onClick={() => setOpen(false)}
+                    onClick={() => {
+                      release();
+                      setOpen(false);
+                    }}
                     aria-current={active ? "page" : undefined}
                     className={cn(
                       "flex min-h-12 items-center rounded-lg px-4 text-lg font-medium transition-colors",
