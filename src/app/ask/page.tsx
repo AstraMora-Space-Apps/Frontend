@@ -1,14 +1,29 @@
 import type { Metadata } from "next";
-import { ComingSoon } from "@/components/layout/ComingSoon";
+import { AskChat } from "@/components/ask/AskChat";
+import { HowToRead } from "@/components/ask/HowToRead";
+import { PageHeader } from "@/components/ui/page-header";
 
-export const metadata: Metadata = { title: "Ask FlameSight" };
+export const metadata: Metadata = {
+  title: "Ask FlameSight",
+  description:
+    "Ask a fire-safety question and get an answer grounded in NASA PSI research, with sources.",
+};
 
-export default function Page() {
+export default function AskPage() {
   return (
-    <ComingSoon
-      title="Ask FlameSight"
-      subtitle="Ask a question about microgravity combustion research and get an answer with citations."
-      milestone="M3"
-    />
+    <div className="mx-auto max-w-7xl px-4 pt-10 sm:px-6 sm:pt-14">
+      <PageHeader
+        title="Ask FlameSight"
+        subtitle="Answers come only from retrieved NASA PSI research, with sources."
+      />
+      <div className="mt-8 grid gap-8 lg:grid-cols-3">
+        <div className="min-w-0 lg:col-span-2">
+          <AskChat />
+        </div>
+        <aside aria-label="How to read an answer" className="pb-10">
+          <HowToRead />
+        </aside>
+      </div>
+    </div>
   );
 }
