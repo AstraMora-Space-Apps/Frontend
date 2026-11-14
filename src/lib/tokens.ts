@@ -15,7 +15,11 @@ export const CHART = {
   /** surface at 85% opacity, for chart labels over data. */
   labelBg: "rgba(14,22,38,0.85)",
   ember: "#FF6B2C",
+  cyan: "#5CE1E6",
 } as const;
+
+/** Safety-margin bars (M8): cyan vs ember is colour-blind safe; bounds also get a hatch. */
+export const MARGIN_COLORS = { g1: CHART.cyan, microgravity: CHART.ember } as const;
 
 /** Colour-blind-safe (Okabe-Ito) palette for flow direction. Meaning is also in legend text. */
 export const FLOW_COLORS: Record<FlowDirection, string> = {
