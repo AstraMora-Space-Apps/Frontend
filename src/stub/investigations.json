@@ -1,0 +1,419 @@
+[
+  {
+    "id": "inv-bass",
+    "name": "BASS",
+    "hardware": "SAMPLE rig A",
+    "pillar": "prevention",
+    "objective": "[SAMPLE] Placeholder objective for BASS. Not a real description.",
+    "fuels": [
+      {
+        "name": "SAMPLE solid fuel A",
+        "fuel_class": "solid",
+        "sample_shape": "SAMPLE flat sheet",
+        "sample_size": "SAMPLE size"
+      },
+      {
+        "name": "SAMPLE solid fuel A2",
+        "fuel_class": "solid",
+        "sample_shape": "SAMPLE rod",
+        "sample_size": "SAMPLE size"
+      }
+    ],
+    "conditions": {
+      "o2_percent": {
+        "min": 17,
+        "max": 40
+      },
+      "pressure_psi": {
+        "min": 10,
+        "max": 14.7
+      },
+      "flow_speed_cm_s": {
+        "min": 0,
+        "max": 40
+      }
+    },
+    "variables": ["SAMPLE variable 1", "SAMPLE variable 2"],
+    "sensors": ["SAMPLE sensor 1", "SAMPLE sensor 2"],
+    "citations": [
+      {
+        "paper_title": "[SAMPLE] Placeholder paper 1, not a real publication",
+        "investigation": "BASS",
+        "page": 3,
+        "quote": "[SAMPLE] Placeholder passage 1. This is not real text from any source.",
+        "source_url": null
+      },
+      {
+        "paper_title": "[SAMPLE] Placeholder paper 2, not a real publication",
+        "investigation": "BASS",
+        "page": null,
+        "quote": "[SAMPLE] Placeholder passage 2. This is not real text from any source.",
+        "source_url": null
+      }
+    ],
+    "sample": true
+  },
+  {
+    "id": "inv-bass-ii",
+    "name": "BASS-II",
+    "hardware": "SAMPLE rig A",
+    "pillar": "prevention",
+    "objective": "[SAMPLE] Placeholder objective for BASS-II. Not a real description.",
+    "fuels": [
+      {
+        "name": "SAMPLE solid fuel B",
+        "fuel_class": "solid",
+        "sample_shape": "SAMPLE flat sheet",
+        "sample_size": "SAMPLE size"
+      },
+      {
+        "name": "SAMPLE solid fuel B2",
+        "fuel_class": "solid",
+        "sample_shape": "SAMPLE rod",
+        "sample_size": "SAMPLE size"
+      }
+    ],
+    "conditions": {
+      "o2_percent": {
+        "min": 15,
+        "max": 50
+      },
+      "pressure_psi": {
+        "min": 8,
+        "max": 14.7
+      },
+      "flow_speed_cm_s": {
+        "min": 0,
+        "max": 50
+      }
+    },
+    "variables": ["SAMPLE variable 1", "SAMPLE variable 2"],
+    "sensors": ["SAMPLE sensor 1", "SAMPLE sensor 2"],
+    "citations": [
+      {
+        "paper_title": "[SAMPLE] Placeholder paper 3, not a real publication",
+        "investigation": "BASS-II",
+        "page": 4,
+        "quote": "[SAMPLE] Placeholder passage 3. This is not real text from any source.",
+        "source_url": null
+      },
+      {
+        "paper_title": "[SAMPLE] Placeholder paper 4, not a real publication",
+        "investigation": "BASS-II",
+        "page": null,
+        "quote": "[SAMPLE] Placeholder passage 4. This is not real text from any source.",
+        "source_url": null
+      }
+    ],
+    "sample": true
+  },
+  {
+    "id": "inv-saffire-i",
+    "name": "Saffire-I",
+    "hardware": "SAMPLE rig B",
+    "pillar": "prevention",
+    "objective": "[SAMPLE] Placeholder objective for Saffire-I. Not a real description.",
+    "fuels": [
+      {
+        "name": "SAMPLE solid fuel C",
+        "fuel_class": "solid",
+        "sample_shape": "SAMPLE flat sheet",
+        "sample_size": "SAMPLE size"
+      },
+      {
+        "name": "SAMPLE solid fuel C2",
+        "fuel_class": "solid",
+        "sample_shape": "SAMPLE rod",
+        "sample_size": "SAMPLE size"
+      }
+    ],
+    "conditions": {
+      "o2_percent": {
+        "min": 20,
+        "max": 22
+      },
+      "pressure_psi": {
+        "min": 14,
+        "max": 14.7
+      },
+      "flow_speed_cm_s": {
+        "min": 15,
+        "max": 25
+      }
+    },
+    "variables": ["SAMPLE variable 1", "SAMPLE variable 2"],
+    "sensors": ["SAMPLE sensor 1", "SAMPLE sensor 2"],
+    "citations": [
+      {
+        "paper_title": "[SAMPLE] Placeholder paper 5, not a real publication",
+        "investigation": "Saffire-I",
+        "page": 5,
+        "quote": "[SAMPLE] Placeholder passage 5. This is not real text from any source.",
+        "source_url": null
+      },
+      {
+        "paper_title": "[SAMPLE] Placeholder paper 6, not a real publication",
+        "investigation": "Saffire-I",
+        "page": null,
+        "quote": "[SAMPLE] Placeholder passage 6. This is not real text from any source.",
+        "source_url": null
+      }
+    ],
+    "sample": true
+  },
+  {
+    "id": "inv-acme-cfi-g",
+    "name": "ACME CFI-G",
+    "hardware": "SAMPLE rig C",
+    "pillar": "supporting",
+    "objective": "[SAMPLE] Placeholder objective for ACME CFI-G. Not a real description.",
+    "fuels": [
+      {
+        "name": "SAMPLE gas fuel D",
+        "fuel_class": "gas",
+        "sample_shape": "SAMPLE burner jet",
+        "sample_size": "SAMPLE size"
+      }
+    ],
+    "conditions": {
+      "o2_percent": {
+        "min": 15,
+        "max": 85
+      },
+      "pressure_psi": {
+        "min": 7,
+        "max": 14.7
+      },
+      "flow_speed_cm_s": {
+        "min": 0,
+        "max": 30
+      }
+    },
+    "variables": ["SAMPLE variable 1", "SAMPLE variable 2"],
+    "sensors": ["SAMPLE sensor 1", "SAMPLE sensor 2"],
+    "citations": [
+      {
+        "paper_title": "[SAMPLE] Placeholder paper 7, not a real publication",
+        "investigation": "ACME CFI-G",
+        "page": 6,
+        "quote": "[SAMPLE] Placeholder passage 7. This is not real text from any source.",
+        "source_url": null
+      },
+      {
+        "paper_title": "[SAMPLE] Placeholder paper 8, not a real publication",
+        "investigation": "ACME CFI-G",
+        "page": null,
+        "quote": "[SAMPLE] Placeholder passage 8. This is not real text from any source.",
+        "source_url": null
+      }
+    ],
+    "sample": true
+  },
+  {
+    "id": "inv-same",
+    "name": "SAME",
+    "hardware": "SAMPLE rig D",
+    "pillar": "detection",
+    "objective": "[SAMPLE] Placeholder objective for SAME. Not a real description.",
+    "fuels": [
+      {
+        "name": "SAMPLE solid fuel E",
+        "fuel_class": "solid",
+        "sample_shape": "SAMPLE flat sheet",
+        "sample_size": "SAMPLE size"
+      },
+      {
+        "name": "SAMPLE solid fuel E2",
+        "fuel_class": "solid",
+        "sample_shape": "SAMPLE rod",
+        "sample_size": "SAMPLE size"
+      }
+    ],
+    "conditions": {
+      "o2_percent": {
+        "min": 20,
+        "max": 22
+      },
+      "pressure_psi": {
+        "min": 14,
+        "max": 14.7
+      },
+      "flow_speed_cm_s": {
+        "min": 0,
+        "max": 10
+      }
+    },
+    "variables": ["SAMPLE variable 1", "SAMPLE variable 2"],
+    "sensors": ["SAMPLE sensor 1", "SAMPLE sensor 2"],
+    "citations": [
+      {
+        "paper_title": "[SAMPLE] Placeholder paper 9, not a real publication",
+        "investigation": "SAME",
+        "page": 7,
+        "quote": "[SAMPLE] Placeholder passage 9. This is not real text from any source.",
+        "source_url": null
+      },
+      {
+        "paper_title": "[SAMPLE] Placeholder paper 10, not a real publication",
+        "investigation": "SAME",
+        "page": null,
+        "quote": "[SAMPLE] Placeholder passage 10. This is not real text from any source.",
+        "source_url": null
+      }
+    ],
+    "sample": true
+  },
+  {
+    "id": "inv-flex",
+    "name": "FLEX",
+    "hardware": "SAMPLE rig C",
+    "pillar": "suppression",
+    "objective": "[SAMPLE] Placeholder objective for FLEX. Not a real description.",
+    "fuels": [
+      {
+        "name": "SAMPLE liquid fuel F",
+        "fuel_class": "liquid",
+        "sample_shape": "SAMPLE droplet",
+        "sample_size": "SAMPLE size"
+      }
+    ],
+    "conditions": {
+      "o2_percent": {
+        "min": 15,
+        "max": 40
+      },
+      "pressure_psi": {
+        "min": 7,
+        "max": 14.7
+      },
+      "flow_speed_cm_s": null
+    },
+    "variables": ["SAMPLE variable 1", "SAMPLE variable 2"],
+    "sensors": ["SAMPLE sensor 1", "SAMPLE sensor 2"],
+    "citations": [
+      {
+        "paper_title": "[SAMPLE] Placeholder paper 11, not a real publication",
+        "investigation": "FLEX",
+        "page": 8,
+        "quote": "[SAMPLE] Placeholder passage 11. This is not real text from any source.",
+        "source_url": null
+      },
+      {
+        "paper_title": "[SAMPLE] Placeholder paper 12, not a real publication",
+        "investigation": "FLEX",
+        "page": null,
+        "quote": "[SAMPLE] Placeholder passage 12. This is not real text from any source.",
+        "source_url": null
+      }
+    ],
+    "sample": true
+  },
+  {
+    "id": "inv-sample-hab-1",
+    "name": "SAMPLE-HAB-1",
+    "hardware": "SAMPLE rig E",
+    "pillar": "prevention",
+    "objective": "[SAMPLE] Placeholder objective for SAMPLE-HAB-1. Not a real description.",
+    "fuels": [
+      {
+        "name": "SAMPLE solid fuel G",
+        "fuel_class": "solid",
+        "sample_shape": "SAMPLE flat sheet",
+        "sample_size": "SAMPLE size"
+      },
+      {
+        "name": "SAMPLE solid fuel G2",
+        "fuel_class": "solid",
+        "sample_shape": "SAMPLE rod",
+        "sample_size": "SAMPLE size"
+      }
+    ],
+    "conditions": {
+      "o2_percent": {
+        "min": 26,
+        "max": 34
+      },
+      "pressure_psi": {
+        "min": 8.5,
+        "max": 12
+      },
+      "flow_speed_cm_s": {
+        "min": 0,
+        "max": 20
+      }
+    },
+    "variables": ["SAMPLE variable 1", "SAMPLE variable 2"],
+    "sensors": ["SAMPLE sensor 1", "SAMPLE sensor 2"],
+    "citations": [
+      {
+        "paper_title": "[SAMPLE] Placeholder paper 13, not a real publication",
+        "investigation": "SAMPLE-HAB-1",
+        "page": 9,
+        "quote": "[SAMPLE] Placeholder passage 13. This is not real text from any source.",
+        "source_url": null
+      },
+      {
+        "paper_title": "[SAMPLE] Placeholder paper 14, not a real publication",
+        "investigation": "SAMPLE-HAB-1",
+        "page": null,
+        "quote": "[SAMPLE] Placeholder passage 14. This is not real text from any source.",
+        "source_url": null
+      }
+    ],
+    "sample": true
+  },
+  {
+    "id": "inv-sample-drop-1",
+    "name": "SAMPLE-DROP-1",
+    "hardware": "SAMPLE drop rig",
+    "pillar": "supporting",
+    "objective": "[SAMPLE] Placeholder objective for SAMPLE-DROP-1. Not a real description.",
+    "fuels": [
+      {
+        "name": "SAMPLE solid fuel H",
+        "fuel_class": "solid",
+        "sample_shape": "SAMPLE flat sheet",
+        "sample_size": "SAMPLE size"
+      },
+      {
+        "name": "SAMPLE solid fuel H2",
+        "fuel_class": "solid",
+        "sample_shape": "SAMPLE rod",
+        "sample_size": "SAMPLE size"
+      }
+    ],
+    "conditions": {
+      "o2_percent": {
+        "min": 18,
+        "max": 60
+      },
+      "pressure_psi": {
+        "min": 5,
+        "max": 14.7
+      },
+      "flow_speed_cm_s": {
+        "min": 0,
+        "max": 30
+      }
+    },
+    "variables": ["SAMPLE variable 1", "SAMPLE variable 2"],
+    "sensors": ["SAMPLE sensor 1", "SAMPLE sensor 2"],
+    "citations": [
+      {
+        "paper_title": "[SAMPLE] Placeholder paper 15, not a real publication",
+        "investigation": "SAMPLE-DROP-1",
+        "page": 10,
+        "quote": "[SAMPLE] Placeholder passage 15. This is not real text from any source.",
+        "source_url": null
+      },
+      {
+        "paper_title": "[SAMPLE] Placeholder paper 16, not a real publication",
+        "investigation": "SAMPLE-DROP-1",
+        "page": null,
+        "quote": "[SAMPLE] Placeholder passage 16. This is not real text from any source.",
+        "source_url": null
+      }
+    ],
+    "sample": true
+  }
+]
