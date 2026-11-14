@@ -1,0 +1,113 @@
+{
+  "answered": [
+    {
+      "answer": "[SAMPLE] Placeholder answer about a 30% oxygen, 10.2 psi habitat atmosphere. This is placeholder text, not a real answer.",
+      "grounded": true,
+      "citations": [
+        {
+          "paper_title": "[SAMPLE] Placeholder paper 301, not a real publication",
+          "investigation": "SAMPLE-HAB-1",
+          "page": 4,
+          "quote": "[SAMPLE] Placeholder passage 301. This is not real text from any source.",
+          "source_url": null
+        },
+        {
+          "paper_title": "[SAMPLE] Placeholder paper 302, not a real publication",
+          "investigation": "BASS-II",
+          "page": 12,
+          "quote": "[SAMPLE] Placeholder passage 302. This is not real text from any source.",
+          "source_url": null
+        },
+        {
+          "paper_title": "[SAMPLE] Placeholder paper 303, not a real publication",
+          "investigation": "BASS",
+          "page": 7,
+          "quote": "[SAMPLE] Placeholder passage 303. This is not real text from any source.",
+          "source_url": null
+        }
+      ],
+      "evidence": {
+        "test_count": 12,
+        "platform": "iss",
+        "repeats": 3,
+        "strength": "medium"
+      },
+      "latency_ms": 700
+    },
+    {
+      "answer": "[SAMPLE] Placeholder answer comparing BASS and Saffire-I. This is placeholder text, not a real answer.",
+      "grounded": true,
+      "citations": [
+        {
+          "paper_title": "[SAMPLE] Placeholder paper 304, not a real publication",
+          "investigation": "BASS",
+          "page": 2,
+          "quote": "[SAMPLE] Placeholder passage 304. This is not real text from any source.",
+          "source_url": null
+        },
+        {
+          "paper_title": "[SAMPLE] Placeholder paper 305, not a real publication",
+          "investigation": "Saffire-I",
+          "page": 9,
+          "quote": "[SAMPLE] Placeholder passage 305. This is not real text from any source.",
+          "source_url": null
+        },
+        {
+          "paper_title": "[SAMPLE] Placeholder paper 306, not a real publication",
+          "investigation": "BASS-II",
+          "page": null,
+          "quote": "[SAMPLE] Placeholder passage 306. This is not real text from any source.",
+          "source_url": null
+        },
+        {
+          "paper_title": "[SAMPLE] Placeholder paper 307, not a real publication",
+          "investigation": "Saffire-I",
+          "page": 15,
+          "quote": "[SAMPLE] Placeholder passage 307. This is not real text from any source.",
+          "source_url": null
+        }
+      ],
+      "evidence": {
+        "test_count": 10,
+        "platform": "iss",
+        "repeats": 2,
+        "strength": "high"
+      },
+      "latency_ms": 800
+    },
+    {
+      "answer": "[SAMPLE] Placeholder answer about smoke detection. This is placeholder text, not a real answer.",
+      "grounded": true,
+      "citations": [
+        {
+          "paper_title": "[SAMPLE] Placeholder paper 308, not a real publication",
+          "investigation": "SAME",
+          "page": 5,
+          "quote": "[SAMPLE] Placeholder passage 308. This is not real text from any source.",
+          "source_url": null
+        },
+        {
+          "paper_title": "[SAMPLE] Placeholder paper 309, not a real publication",
+          "investigation": "SAME",
+          "page": 11,
+          "quote": "[SAMPLE] Placeholder passage 309. This is not real text from any source.",
+          "source_url": null
+        }
+      ],
+      "evidence": {
+        "test_count": 3,
+        "platform": "iss",
+        "repeats": 1,
+        "strength": "low"
+      },
+      "latency_ms": 900
+    }
+  ],
+  "not_in_data": {
+    "answer": "",
+    "grounded": false,
+    "citations": [],
+    "evidence": null,
+    "latency_ms": 420
+  }
+}

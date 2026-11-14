@@ -1,0 +1,232 @@
+[
+  {
+    "id": "ins-01",
+    "title": "[SAMPLE] Placeholder insight 1",
+    "summary": "[SAMPLE] Placeholder summary 1. Not a real finding.",
+    "recommendation": "[SAMPLE] Placeholder recommendation 1.",
+    "risk_level": "high",
+    "safety_impact": 4,
+    "evidence_strength": 1,
+    "mission_relevance": 2,
+    "score": 8,
+    "score_reason": "[SAMPLE] Placeholder reason: impact 4 x evidence 1 x relevance 2.",
+    "citations": [
+      {
+        "paper_title": "[SAMPLE] Placeholder paper 200, not a real publication",
+        "investigation": "BASS",
+        "page": 2,
+        "quote": "[SAMPLE] Placeholder passage 200. This is not real text from any source.",
+        "source_url": null
+      }
+    ],
+    "reviewed": true,
+    "sample": true
+  },
+  {
+    "id": "ins-02",
+    "title": "[SAMPLE] Placeholder insight 2",
+    "summary": "[SAMPLE] Placeholder summary 2. Not a real finding.",
+    "recommendation": "[SAMPLE] Placeholder recommendation 2.",
+    "risk_level": "high",
+    "safety_impact": 5,
+    "evidence_strength": 4,
+    "mission_relevance": 4,
+    "score": 80,
+    "score_reason": "[SAMPLE] Placeholder reason: impact 5 x evidence 4 x relevance 4.",
+    "citations": [
+      {
+        "paper_title": "[SAMPLE] Placeholder paper 201, not a real publication",
+        "investigation": "BASS-II",
+        "page": 3,
+        "quote": "[SAMPLE] Placeholder passage 201. This is not real text from any source.",
+        "source_url": null
+      }
+    ],
+    "reviewed": false,
+    "sample": true
+  },
+  {
+    "id": "ins-03",
+    "title": "[SAMPLE] Placeholder insight 3",
+    "summary": "[SAMPLE] Placeholder summary 3. Not a real finding.",
+    "recommendation": "[SAMPLE] Placeholder recommendation 3.",
+    "risk_level": "high",
+    "safety_impact": 4,
+    "evidence_strength": 2,
+    "mission_relevance": 2,
+    "score": 16,
+    "score_reason": "[SAMPLE] Placeholder reason: impact 4 x evidence 2 x relevance 2.",
+    "citations": [
+      {
+        "paper_title": "[SAMPLE] Placeholder paper 202, not a real publication",
+        "investigation": "Saffire-I",
+        "page": 4,
+        "quote": "[SAMPLE] Placeholder passage 202. This is not real text from any source.",
+        "source_url": null
+      }
+    ],
+    "reviewed": false,
+    "sample": true
+  },
+  {
+    "id": "ins-04",
+    "title": "[SAMPLE] Placeholder insight 4",
+    "summary": "[SAMPLE] Placeholder summary 4. Not a real finding.",
+    "recommendation": "[SAMPLE] Placeholder recommendation 4.",
+    "risk_level": "medium",
+    "safety_impact": 3,
+    "evidence_strength": 5,
+    "mission_relevance": 4,
+    "score": 60,
+    "score_reason": "[SAMPLE] Placeholder reason: impact 3 x evidence 5 x relevance 4.",
+    "citations": [
+      {
+        "paper_title": "[SAMPLE] Placeholder paper 203, not a real publication",
+        "investigation": "ACME CFI-G",
+        "page": 5,
+        "quote": "[SAMPLE] Placeholder passage 203. This is not real text from any source.",
+        "source_url": null
+      }
+    ],
+    "reviewed": true,
+    "sample": true
+  },
+  {
+    "id": "ins-05",
+    "title": "[SAMPLE] Placeholder insight 5",
+    "summary": "[SAMPLE] Placeholder summary 5. Not a real finding.",
+    "recommendation": "[SAMPLE] Placeholder recommendation 5.",
+    "risk_level": "medium",
+    "safety_impact": 3,
+    "evidence_strength": 3,
+    "mission_relevance": 2,
+    "score": 18,
+    "score_reason": "[SAMPLE] Placeholder reason: impact 3 x evidence 3 x relevance 2.",
+    "citations": [
+      {
+        "paper_title": "[SAMPLE] Placeholder paper 204, not a real publication",
+        "investigation": "SAME",
+        "page": 6,
+        "quote": "[SAMPLE] Placeholder passage 204. This is not real text from any source.",
+        "source_url": null
+      }
+    ],
+    "reviewed": false,
+    "sample": true
+  },
+  {
+    "id": "ins-06",
+    "title": "[SAMPLE] Placeholder insight 6",
+    "summary": "[SAMPLE] Placeholder summary 6. Not a real finding.",
+    "recommendation": "[SAMPLE] Placeholder recommendation 6.",
+    "risk_level": "medium",
+    "safety_impact": 3,
+    "evidence_strength": 1,
+    "mission_relevance": 4,
+    "score": 12,
+    "score_reason": "[SAMPLE] Placeholder reason: impact 3 x evidence 1 x relevance 4.",
+    "citations": [
+      {
+        "paper_title": "[SAMPLE] Placeholder paper 205, not a real publication",
+        "investigation": "FLEX",
+        "page": 7,
+        "quote": "[SAMPLE] Placeholder passage 205. This is not real text from any source.",
+        "source_url": null
+      }
+    ],
+    "reviewed": false,
+    "sample": true
+  },
+  {
+    "id": "ins-07",
+    "title": "[SAMPLE] Placeholder insight 7",
+    "summary": "[SAMPLE] Placeholder summary 7. Not a real finding.",
+    "recommendation": "[SAMPLE] Placeholder recommendation 7.",
+    "risk_level": "medium",
+    "safety_impact": 3,
+    "evidence_strength": 4,
+    "mission_relevance": 2,
+    "score": 24,
+    "score_reason": "[SAMPLE] Placeholder reason: impact 3 x evidence 4 x relevance 2.",
+    "citations": [
+      {
+        "paper_title": "[SAMPLE] Placeholder paper 206, not a real publication",
+        "investigation": "SAMPLE-HAB-1",
+        "page": 8,
+        "quote": "[SAMPLE] Placeholder passage 206. This is not real text from any source.",
+        "source_url": null
+      }
+    ],
+    "reviewed": true,
+    "sample": true
+  },
+  {
+    "id": "ins-08",
+    "title": "[SAMPLE] Placeholder insight 8",
+    "summary": "[SAMPLE] Placeholder summary 8. Not a real finding.",
+    "recommendation": "[SAMPLE] Placeholder recommendation 8.",
+    "risk_level": "low",
+    "safety_impact": 2,
+    "evidence_strength": 2,
+    "mission_relevance": 4,
+    "score": 16,
+    "score_reason": "[SAMPLE] Placeholder reason: impact 2 x evidence 2 x relevance 4.",
+    "citations": [
+      {
+        "paper_title": "[SAMPLE] Placeholder paper 207, not a real publication",
+        "investigation": "SAMPLE-DROP-1",
+        "page": 9,
+        "quote": "[SAMPLE] Placeholder passage 207. This is not real text from any source.",
+        "source_url": null
+      }
+    ],
+    "reviewed": false,
+    "sample": true
+  },
+  {
+    "id": "ins-09",
+    "title": "[SAMPLE] Placeholder insight 9",
+    "summary": "[SAMPLE] Placeholder summary 9. Not a real finding.",
+    "recommendation": "[SAMPLE] Placeholder recommendation 9.",
+    "risk_level": "low",
+    "safety_impact": 1,
+    "evidence_strength": 5,
+    "mission_relevance": 2,
+    "score": 10,
+    "score_reason": "[SAMPLE] Placeholder reason: impact 1 x evidence 5 x relevance 2.",
+    "citations": [
+      {
+        "paper_title": "[SAMPLE] Placeholder paper 208, not a real publication",
+        "investigation": "BASS",
+        "page": 10,
+        "quote": "[SAMPLE] Placeholder passage 208. This is not real text from any source.",
+        "source_url": null
+      }
+    ],
+    "reviewed": false,
+    "sample": true
+  },
+  {
+    "id": "ins-10",
+    "title": "[SAMPLE] Placeholder insight 10",
+    "summary": "[SAMPLE] Placeholder summary 10. Not a real finding.",
+    "recommendation": "[SAMPLE] Placeholder recommendation 10.",
+    "risk_level": "low",
+    "safety_impact": 2,
+    "evidence_strength": 3,
+    "mission_relevance": 4,
+    "score": 24,
+    "score_reason": "[SAMPLE] Placeholder reason: impact 2 x evidence 3 x relevance 4.",
+    "citations": [
+      {
+        "paper_title": "[SAMPLE] Placeholder paper 209, not a real publication",
+        "investigation": "BASS-II",
+        "page": 11,
+        "quote": "[SAMPLE] Placeholder passage 209. This is not real text from any source.",
+        "source_url": null
+      }
+    ],
+    "reviewed": true,
+    "sample": true
+  }
+]
