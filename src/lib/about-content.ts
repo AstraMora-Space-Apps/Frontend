@@ -17,15 +17,15 @@ export const ACCURACY: {
   measured_on: string | null;
 } = { questions: 20, plain_rag: null, table_filtered_rag: null, measured_on: null };
 
-// TODO(AI/ML owner): set the backend model name. While null the page omits it.
+// Owner (AI/ML): set the backend model name. While null the page omits it.
 export const AI_MODEL_NAME: string | null = null;
 
-// TODO(team): set the public GitHub repository URL. While null the link is hidden.
+// Owner (team): set the public GitHub repository URL. While null the link is hidden.
 export const REPO_URL: string | null = null;
 
 export const VERSION_STATEMENT = "v0.1-hackathon, preliminary / unverified";
 
-/** Shown on /insights. TODO(team): confirm this matches the review process. */
+/** Shown on /insights. Owner (team): confirm this matches the review process. */
 export const INSIGHTS_PROCESS_NOTE =
   "Insights are proposed by an AI model and ranked by the formula above. Items marked Reviewed were checked by a human: an AI model proposes the three scores and the science lead reviews the top 20 by hand.";
 
@@ -147,7 +147,7 @@ export const SOURCES: readonly SourceLink[] = [
     note: "Public research papers and technical reports.",
   },
   {
-    // TODO(team): add the Space Apps challenge Resources tab links. Hidden while url is null.
+    // Owner (team): add the Space Apps challenge Resources tab links. Hidden while url is null.
     label: "Space Apps challenge Resources tab links: to be added",
     url: null,
     note: "Placeholder.",
