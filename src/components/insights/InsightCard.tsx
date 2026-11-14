@@ -77,6 +77,9 @@ function InsightCard({ ranked, highlighted }: InsightCardProps) {
               </span>
             )}
             {insight.sample ? <Badge variant="risk-medium">[SAMPLE]</Badge> : null}
+            <Badge variant="preliminary" className="max-w-full whitespace-normal">
+              v0.1 · preliminary / unverified
+            </Badge>
           </div>
         </div>
       </header>

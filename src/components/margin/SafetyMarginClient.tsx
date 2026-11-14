@@ -137,7 +137,7 @@ function SafetyMarginClient() {
                 const s = parseSort(e.target.value);
                 update((p) => (s === DEFAULT_MARGIN_SORT ? p.delete("sort") : p.set("sort", s)));
               }}
-              className="min-h-11 rounded-lg border border-border bg-surface-raised px-3 text-base"
+              className="min-h-11 rounded-lg border border-input bg-surface-raised px-3 text-base"
             >
               {MARGIN_SORTS.map((s) => (
                 <option key={s} value={s}>

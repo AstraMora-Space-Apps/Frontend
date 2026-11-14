@@ -42,7 +42,7 @@ function Composer({ value, onChange, onSubmit, busy, textareaRef }: ComposerProp
         e.preventDefault();
         send();
       }}
-      className="flex items-end gap-2 rounded-card border border-border bg-surface-raised p-2 shadow-lg shadow-black/40 focus-within:border-ember/60"
+      className="flex items-end gap-2 rounded-card border border-input bg-surface-raised p-2 shadow-lg shadow-black/40 focus-within:border-ember focus-within:ring-2 focus-within:ring-ember/40"
     >
       <label htmlFor="ask-input" className="sr-only">
         Your question
