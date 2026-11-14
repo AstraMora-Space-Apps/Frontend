@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/metadata";
 import { AskChat } from "@/components/ask/AskChat";
 import { HowToRead } from "@/components/ask/HowToRead";
 import { PageHeader } from "@/components/ui/page-header";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Ask FlameSight",
   description:
     "Ask a fire-safety question and get an answer grounded in NASA PSI research, with sources.",
-};
+});
 
 export default function AskPage() {
   return (

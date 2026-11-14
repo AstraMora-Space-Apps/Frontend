@@ -1,13 +1,14 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/metadata";
 import { CoverageClient } from "@/components/coverage/CoverageClient";
 import { PageHeader } from "@/components/ui/page-header";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Coverage Map",
   description:
     "Where microgravity combustion tests have been run in oxygen and pressure, against habitat atmospheres.",
-};
+});
 
 export default function CoveragePage() {
   return (

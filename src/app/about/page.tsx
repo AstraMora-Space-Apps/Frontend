@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/metadata";
 import Link from "next/link";
 import { ArrowRight, Check, CircleAlert, Code2 } from "lucide-react";
 import { AboutToc } from "@/components/about/AboutToc";
@@ -22,11 +23,11 @@ import {
 } from "@/lib/about-content";
 import { FACTORS, MAX_SCORE, recomputeScore } from "@/lib/insights";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "About FlameSight",
   description:
     "How FlameSight works, how insights are ranked, its accuracy, limits and data sources.",
-};
+});
 
 function Section({
   id,

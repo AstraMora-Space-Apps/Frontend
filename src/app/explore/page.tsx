@@ -1,13 +1,14 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/metadata";
 import { ExploreClient } from "@/components/explore/ExploreClient";
 import { CardSkeleton } from "@/components/explore/States";
 import { PageHeader } from "@/components/ui/page-header";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Explore the research",
   description: "Filter, read and compare microgravity combustion investigations.",
-};
+});
 
 export default function ExplorePage() {
   return (
