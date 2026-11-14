@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
+import { QueryProvider } from "@/components/providers/QueryProvider";
 import { StubBanner } from "@/components/ui/stub-banner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { THEME_COLOR } from "@/lib/tokens";
@@ -37,14 +38,16 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         >
           Skip to content
         </a>
-        <TooltipProvider delay={200}>
-          <Header />
-          <StubBanner />
-          <main id="main" tabIndex={-1} className="flex-1 outline-none">
-            {children}
-          </main>
-          <Footer />
-        </TooltipProvider>
+        <QueryProvider>
+          <TooltipProvider delay={200}>
+            <Header />
+            <StubBanner />
+            <main id="main" tabIndex={-1} className="flex-1 outline-none">
+              {children}
+            </main>
+            <Footer />
+          </TooltipProvider>
+        </QueryProvider>
       </body>
     </html>
   );
