@@ -85,7 +85,12 @@ export function ContractChecks() {
     rowFrom("getTests(Moon Base window)", moonTests, (d) => [
       d.every(
         (t) =>
-          t.o2_percent >= 28 && t.o2_percent <= 32 && t.pressure_psi >= 9.5 && t.pressure_psi <= 11,
+          t.o2_percent !== null &&
+          t.pressure_psi !== null &&
+          t.o2_percent >= 28 &&
+          t.o2_percent <= 32 &&
+          t.pressure_psi >= 9.5 &&
+          t.pressure_psi <= 11,
       ),
       `${d.length} tests at 28–32% O₂, 9.5–11 psi`,
     ]),
