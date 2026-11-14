@@ -34,6 +34,9 @@
 - Class names: merge with `cn()` from `@/lib/utils`.
 - Env vars: `NEXT_PUBLIC_API_BASE_URL`, `NEXT_PUBLIC_USE_STUB`. See `.env.example`. Never commit `.env*` files other than `.env.example`, and never commit API keys.
 - Do not add dependencies beyond those in `package.json` without asking first.
+- Data hooks live in `src/lib/hooks.ts` (React Query over `src/lib/api.ts`). Pages use the hooks, never `api.ts` fetch internals. Charts take one bucket from `splitByFuelClass()`, never the raw test list.
+- `/dev/contract` is a local-only check of the data layer (404 in production). Never link it from the nav.
+- Stub mode is on unless `NEXT_PUBLIC_USE_STUB=false`. Assumptions about backend fields live in `docs/API_ASSUMPTIONS.md`.
 - Never show "Built with AI assistance" or any AI-use disclosure anywhere in the UI (footer, About page, metadata). This overrides `docs/MILESTONES.md`.
 - Folders: `src/app` (routes), `src/components/{ui,layout,charts,ask,explore}`, `src/lib`, `src/stub` (sample JSON), `public`.
 
