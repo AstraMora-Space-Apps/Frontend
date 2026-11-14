@@ -144,8 +144,11 @@ export function toTestFilters(f: ExploreFilters): TestFilters {
 
 /* --------------------------------------------------- client matching */
 
-const overlaps = (lo: number, hi: number, r: NumRange | null) => !r || (hi >= r[0] && lo <= r[1]);
-const inRange = (v: number, r: NumRange | null) => !r || (v >= r[0] && v <= r[1]);
+/** A null (not reported) range or value only matches when that filter is not set. */
+const overlaps = (range: { min: number; max: number } | null, r: NumRange | null) =>
+  !r || (range !== null && range.max >= r[0] && range.min <= r[1]);
+const inRange = (v: number | null, r: NumRange | null) =>
+  !r || (v !== null && v >= r[0] && v <= r[1]);
 const textMatch = (fields: readonly string[], q: string) => {
   const needle = q.trim().toLowerCase();
   return !needle || fields.some((s) => s.toLowerCase().includes(needle));
@@ -176,8 +179,8 @@ export function matchesInvestigation(
     (f.fuels.length === 0 || inv.fuels.some((x) => f.fuels.includes(x.fuel_class))) &&
     (f.platforms.length === 0 || f.platforms.some((pl) => invPlatforms?.has(pl) ?? false)) &&
     sameText(inv.hardware, f.hardware) &&
-    overlaps(o2.min, o2.max, f.o2) &&
-    overlaps(p.min, p.max, f.pressure) &&
+    overlaps(o2, f.o2) &&
+    overlaps(p, f.pressure) &&
     textMatch([inv.name, inv.objective, inv.hardware, ...inv.fuels.map((x) => x.name)], f.q)
   );
 }
@@ -212,8 +215,12 @@ export function pressureBounds(
   tests: readonly TestRecord[],
 ): NumRange {
   const values = [
-    ...invs.flatMap((i) => [i.conditions.pressure_psi.min, i.conditions.pressure_psi.max]),
-    ...tests.map((t) => t.pressure_psi),
+    ...invs.flatMap((i) =>
+      i.conditions.pressure_psi
+        ? [i.conditions.pressure_psi.min, i.conditions.pressure_psi.max]
+        : [],
+    ),
+    ...tests.flatMap((t) => (t.pressure_psi === null ? [] : [t.pressure_psi])),
   ];
   if (values.length === 0) return [0, 15];
   return [Math.floor(Math.min(...values)), Math.ceil(Math.max(...values))];
