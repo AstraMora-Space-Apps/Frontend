@@ -1,8 +1,9 @@
 import { TriangleAlert } from "lucide-react";
+import { isStubMode } from "@/lib/api";
 
 /** Visible whenever stub mode is on (Hard rule 10). Env var is inlined at build time. */
 function StubBanner() {
-  if (process.env.NEXT_PUBLIC_USE_STUB !== "true") return null;
+  if (!isStubMode) return null;
   return (
     <div
       role="status"
