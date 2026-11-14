@@ -379,4 +379,21 @@ function TestsTable({ rows, view, onViewChange, csvUrl }: TestsTableProps) {
   );
 }
 
-export { TestsTable };
+/** Standalone sortable, paginated test table (used by the Coverage Map "View as table"). */
+function TestDataTable({ title, rows }: { title: string; rows: readonly TestRecord[] }) {
+  const [sort, setSort] = useState<Sort>({ key: "investigation_name", dir: "asc" });
+  return (
+    <TestTable
+      title={title}
+      rows={rows}
+      sort={sort}
+      onSort={(key) =>
+        setSort((s) =>
+          s.key === key ? { key, dir: s.dir === "asc" ? "desc" : "asc" } : { key, dir: "asc" },
+        )
+      }
+    />
+  );
+}
+
+export { TestsTable, TestDataTable };
