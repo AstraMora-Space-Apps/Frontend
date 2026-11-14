@@ -3,7 +3,15 @@
 import { useEffect, useRef, useState } from "react";
 import { CircleCheck, CircleX, LoaderCircle } from "lucide-react";
 import { exportCsvUrl, isStubMode, type ApiError, type DataSource } from "@/lib/api";
-import { useAsk, useInsights, useInvestigations, useTests, type QueryState } from "@/lib/hooks";
+import {
+  useAsk,
+  useInsights,
+  useInvestigations,
+  useSafetyMargins,
+  useTests,
+  type QueryState,
+} from "@/lib/hooks";
+import { isPaired } from "@/lib/margins";
 import { splitByFuelClass } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
@@ -31,6 +39,7 @@ export function ContractChecks() {
   const tests = useTests();
   const moonTests = useTests(MOON);
   const insights = useInsights();
+  const margins = useSafetyMargins();
   const answered = useAsk();
   const notInData = useAsk();
   const cached = useAsk();
@@ -97,6 +106,10 @@ export function ContractChecks() {
     rowFrom("getInsights()", insights, (d) => [
       d.every((i) => i.score === i.safety_impact * i.evidence_strength * i.mission_relevance),
       `${d.length} insights · ${d.filter((i) => i.reviewed).length} reviewed · scores valid`,
+    ]),
+    rowFrom("getSafetyMargins()", margins, (d) => [
+      d.margins.length > 0 && d.margins.every((m) => m.fuel_class === "solid"),
+      `${d.margins.length} solid materials · ${d.margins.filter(isPaired).length} paired · ${d.margins.filter((m) => m.loc_microgravity_is_bound || m.loc_1g_is_bound).length} with a bound · ${d.excluded_non_solid} non-solid excluded`,
     ]),
     rowFrom("ask(answerable)", answered, (d) => [
       d.grounded && d.citations.length >= 2 && d.citations.length <= 4,

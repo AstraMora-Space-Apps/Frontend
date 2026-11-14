@@ -150,7 +150,39 @@ Habitat numbers live only in `src/lib/habitats.ts`.
 | "Nearby" radius and labels | d ≤ 0.15 nearby; Very close ≤ 0.03, Close ≤ 0.08, Nearby ≤ 0.15, else Far | assumed (front end) | Samadhi |
 | Default habitat on /coverage | Moon Base (demo scene) when no `?habitat=` is given | front-end decision | Dinith |
 
-## Gaps to report (M7)
+## Safety margins (M8)
+
+The plan assumed `GET /safety-margins` returning the canonical `SafetyMargin` shape below. The deployed backend already serves equivalent data at `GET /api/safety-margins` in a different shape, so `src/lib/api.ts` maps it (`mapLiveSafetyMargin`). The page never synthesises margins from other tables. A 404 or an empty list shows "Safety-margin data is not available yet".
+
+| Canonical field (`types.ts`) | Meaning | Live source (`/api/safety-margins`) | Status | Owner to confirm |
+|---|---|---|---|---|
+| Endpoint | `SafetyMargin[]` | `GET /api/safety-margins` (not `/safety-margins`) | corrected (deployed backend, M8) | Thejitha |
+| `id` | string, unique | not sent; front end uses `<row index>-<material slug>` | gap | Thejitha |
+| `material` | string | `material` | confirmed (M8) | Dhinanjaya |
+| `category` | string or `null` | `category` (e.g. "Fabric", "Gaseous Simulant") | confirmed (M8) | Dhinanjaya |
+| `fuel_class` | `solid` only; other classes rejected (Hard rule 2) | not sent; derived: a category containing "gas" means gas. Non-solid rows are dropped and counted on the page | assumed | Dhinanjaya |
+| `pressure_psi` | number, psi, or `null` | `pressure_psi` (backend default 14.7) | confirmed (M8) | Dhinanjaya |
+| `flow_speed_cm_s` | number, cm/s, or `null` | `flow_speed_cm_s` | confirmed (M8) | Dhinanjaya |
+| `loc_1g_percent` | lowest O₂ (%) with a sustained flame in 1-g, or `null` | `limit_1g_o2_percent` | confirmed (M8) | Dhinanjaya |
+| `loc_microgravity_percent` | same, in microgravity, or `null` | `limit_ug_o2_percent` | confirmed (M8) | Dhinanjaya |
+| `loc_1g_is_bound`, `loc_microgravity_is_bound` | true = limit not reached (flame still burning at the lowest O₂ tested); true limit at or below the value | not sent; mapped to `false` (values treated as measured limits) | gap | Dhinanjaya |
+| `platform_microgravity` | `iss` | `drop_tower` | `other`, or `null` (shown "Not reported") | not sent; `null` | gap | Dhinanjaya |
+| `evidence` | `Evidence` or `null` | not sent; `null` ("Evidence strength not reported") | gap | Dhinanjaya |
+| `citations` | `Citation[]` | `citation` free text such as "BASS-II_001, p. 4", parsed into title and page; no quote, no URL | gap | Dhinanjaya |
+| `note` | string or `null` | `notes` | confirmed (M8) | Dhinanjaya |
+| `sample` | boolean | not sent; `false` | confirmed (M8) | Thejitha |
+| (not used) | | `delta_o2_percent` (microgravity minus 1-g, negative = more flammable) and `danger_direction`. The front end computes its own reduction (1-g minus microgravity) | front-end decision | Dinith |
+
+Front-end definitions (`src/lib/margins.ts`, preliminary, to be confirmed by Samadhi):
+
+| Item | Decision | Status | Owner to confirm |
+|---|---|---|---|
+| Reduction | `loc_1g_percent − loc_microgravity_percent`, percentage points; positive = less safety margin in microgravity | assumed | Samadhi |
+| Reduction qualifier | both exact → exact; microgravity bound → "at least"; 1-g bound or both bound → cannot be determined (direction shown as "not lower" when certain); missing value → cannot be determined | assumed | Samadhi |
+| Habitat comparison | limit ≤ habitat O₂ → "below" (certain even for a bound); exact limit > habitat O₂ → "above"; bound > habitat O₂ → unknown. Habitat O₂ from `habitats.ts` only (Earth 21 %, Moon Base / rover 30 %) | assumed | Samadhi |
+| Unpaired | either limit `null`; hidden unless "Show unpaired materials" is on | front-end decision | Dinith |
+
+## Gaps to report (M7, M8)
 
 Checked against the deployed backend `https://backend-632g.onrender.com` and the Backend repo. The deployed contract is newer than the repo `main`: many fields are now nullable or optional. The front end accepts these and shows "Not reported"; it never fills in values.
 
@@ -166,3 +198,7 @@ Checked against the deployed backend `https://backend-632g.onrender.com` and the
 | No human review yet | All 281 insights have `reviewed: false` (an earlier deploy had all `true`). Set the flag only for insights the science lead actually reviewed | Samadhi |
 | CSV stamp format | Leading `#` comment line instead of a `dataset_status` column; Excel shows it as a junk first row | Thejitha |
 | Large payload | `/tests` is about 1 MB (1979 records) and loads on Explore and Coverage. Fine for now; server-side pagination would help on phones | Thejitha |
+| Safety margins: bound flags missing | `/api/safety-margins` has no censoring flags, so every limit is shown as a measured value and the page reports "9 exact". If any limit was not reached (flame still burning at the lowest O₂ tested), send `loc_*_is_bound` | Dhinanjaya |
+| Safety margins: no evidence, platform, id or quote | Rows lack `evidence`, microgravity platform, an id and a verbatim quote; citation is free text ("BASS-II_001, p. 4"). The page shows "Not reported" and "No quoted passage" | Dhinanjaya, Thejitha |
+| Safety margins: gas row in a solid list | The list includes "Methane / N2 Circular Burner (BRE Simulant)", category "Gaseous Simulant". The page drops it (Hard rule 2) and says so; better to send `fuel_class` and serve gas separately | Dhinanjaya |
+| Safety margins: values to verify | Values and notes read like curated seed data (for example notes such as "posing ignition risk at Moon Base 30% O2"), and the endpoint path differs from the plan. Confirm the limits against the cited papers before the demo | Samadhi |

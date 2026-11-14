@@ -36,7 +36,13 @@ function QuoteList({ citations }: { citations: readonly Citation[] }) {
         >
           <blockquote className="flex gap-3 text-base text-foreground">
             <Quote className="mt-1 size-5 shrink-0 text-cyan" aria-hidden />
-            <p className="max-w-[70ch]">{c.quote}</p>
+            {c.quote ? (
+              <p className="max-w-[70ch]">{c.quote}</p>
+            ) : (
+              <p className="max-w-[70ch] text-muted-foreground italic">
+                No quoted passage was provided for this source.
+              </p>
+            )}
           </blockquote>
           <p className="mt-3 text-sm text-muted-foreground">
             {c.paper_title}
