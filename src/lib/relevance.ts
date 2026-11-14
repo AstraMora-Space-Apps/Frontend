@@ -11,7 +11,7 @@
  * ranked by that distance (ties: more tests nearby first, then name).
  */
 import type { ConfirmedHabitat } from "@/lib/habitats";
-import type { Investigation, TestRecord } from "@/lib/types";
+import { isPlottable, type Investigation, type PlottableTest, type TestRecord } from "@/lib/types";
 
 export const O2_SCALE = 100;
 export const PRESSURE_SCALE = 16;
@@ -31,7 +31,7 @@ export function distanceLabel(d: number): string {
 }
 
 export function testDistance(
-  t: Pick<TestRecord, "o2_percent" | "pressure_psi">,
+  t: Pick<PlottableTest, "o2_percent" | "pressure_psi">,
   h: ConfirmedHabitat,
 ): number {
   const dx = (t.o2_percent - h.o2_percent) / O2_SCALE;
@@ -41,7 +41,7 @@ export function testDistance(
 
 /** Inside the habitat's illustrative display band (see habitats.ts). */
 export function inBand(
-  t: Pick<TestRecord, "o2_percent" | "pressure_psi">,
+  t: Pick<PlottableTest, "o2_percent" | "pressure_psi">,
   h: ConfirmedHabitat,
 ): boolean {
   return (
@@ -55,10 +55,13 @@ export type RankedInvestigation = {
   /** Normalised distance of the closest test. */
   distance: number;
   label: string;
-  closestTest: TestRecord;
+  closestTest: PlottableTest;
   testsInBand: number;
   testsNearby: number;
-  /** Share (0-1) of nearby tests that ended early; null when no tests are nearby. */
+  /**
+   * Share (0-1) of nearby tests that ended early, among nearby tests whose outcome is reported;
+   * null when none is reported (M7: live data reports no censoring yet).
+   */
   endedEarlyShare: number | null;
 };
 
@@ -67,8 +70,10 @@ export function rankInvestigations(
   investigations: readonly Investigation[],
   habitat: ConfirmedHabitat,
 ): RankedInvestigation[] {
-  const byInvestigation = new Map<string, TestRecord[]>();
+  // Only tests with both O2 and pressure reported can be placed relative to a habitat.
+  const byInvestigation = new Map<string, PlottableTest[]>();
   for (const t of tests) {
+    if (!isPlottable(t)) continue;
     const list = byInvestigation.get(t.investigation_id) ?? [];
     list.push(t);
     byInvestigation.set(t.investigation_id, list);
@@ -95,9 +100,10 @@ export function rankInvestigations(
       closestTest: closest,
       testsInBand: list.filter((t) => inBand(t, habitat)).length,
       testsNearby: nearby.length,
-      endedEarlyShare: nearby.length
-        ? nearby.filter((t) => t.ended_early).length / nearby.length
-        : null,
+      endedEarlyShare: (() => {
+        const known = nearby.filter((t) => t.ended_early !== null);
+        return known.length ? known.filter((t) => t.ended_early).length / known.length : null;
+      })(),
     });
   }
 

@@ -22,7 +22,13 @@ import {
 
 /* ------------------------------------------------------------------ config */
 
-export const REQUEST_TIMEOUT_MS = 10_000;
+const DEFAULT_TIMEOUT_MS = 10_000;
+
+/** Client timeout per request. Override with NEXT_PUBLIC_API_TIMEOUT_MS (positive integer, ms). */
+export const REQUEST_TIMEOUT_MS: number = (() => {
+  const raw = Number(process.env.NEXT_PUBLIC_API_TIMEOUT_MS);
+  return Number.isInteger(raw) && raw > 0 ? raw : DEFAULT_TIMEOUT_MS;
+})();
 const STUB_LATENCY_MS = { min: 400, max: 900 } as const;
 
 /**
@@ -153,8 +159,14 @@ async function stubLoad<S extends z.ZodType>(
 const overlaps = (lo: number, hi: number, min?: number, max?: number) =>
   (min === undefined || hi >= min) && (max === undefined || lo <= max);
 
-const within = (v: number, min?: number, max?: number) =>
-  (min === undefined || v >= min) && (max === undefined || v <= max);
+/** Unknown (null) ranges or values only match when that filter is not set. */
+const overlapsRange = (r: { min: number; max: number } | null, min?: number, max?: number) =>
+  r === null ? min === undefined && max === undefined : overlaps(r.min, r.max, min, max);
+
+const within = (v: number | null, min?: number, max?: number) =>
+  v === null
+    ? min === undefined && max === undefined
+    : (min === undefined || v >= min) && (max === undefined || v <= max);
 
 const includesText = (haystack: readonly string[], q?: string) => {
   const needle = q?.trim().toLowerCase();
@@ -169,8 +181,8 @@ export function matchInvestigation(inv: Investigation, f: InvestigationFilters):
     (!f.fuel_class || inv.fuels.some((fuel) => fuel.fuel_class === f.fuel_class)) &&
     sameText(inv.hardware, f.hardware) &&
     (!f.pillar || inv.pillar === f.pillar) &&
-    overlaps(o2.min, o2.max, f.o2_min, f.o2_max) &&
-    overlaps(p.min, p.max, f.pressure_min, f.pressure_max) &&
+    overlapsRange(o2, f.o2_min, f.o2_max) &&
+    overlapsRange(p, f.pressure_min, f.pressure_max) &&
     includesText([inv.name, inv.objective, inv.hardware, ...inv.fuels.map((x) => x.name)], f.q)
   );
 }

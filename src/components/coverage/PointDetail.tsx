@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { FUEL_LABEL, PLATFORM_LABEL } from "@/lib/filters";
-import { FLOW_LABEL } from "@/lib/plot";
+import { flowLabel } from "@/lib/plot";
 import type { TestRecord } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
@@ -17,9 +17,12 @@ type PointDetailProps = { test: TestRecord; onClose: () => void };
 function PointDetail({ test, onClose }: PointDetailProps) {
   const rows: [string, string][] = [
     ["Fuel", `${test.fuel} (${FUEL_LABEL[test.fuel_class]})`],
-    ["Flow direction", FLOW_LABEL[test.flow_direction]],
-    ["O₂", `${test.o2_percent} %`],
-    ["Pressure", `${test.pressure_psi} psi`],
+    [
+      "Flow direction",
+      test.flow_direction === null ? "Not reported" : flowLabel(test.flow_direction),
+    ],
+    ["O₂", test.o2_percent === null ? "Not reported" : `${test.o2_percent} %`],
+    ["Pressure", test.pressure_psi === null ? "Not reported" : `${test.pressure_psi} psi`],
     ["Flow speed", test.flow_speed_cm_s === null ? "Not reported" : `${test.flow_speed_cm_s} cm/s`],
     ["Platform", PLATFORM_LABEL[test.platform]],
     ["Spread rate", test.spread_rate === null ? "Not reported" : `${test.spread_rate}`],
@@ -38,7 +41,11 @@ function PointDetail({ test, onClose }: PointDetailProps) {
       <div className="flex flex-wrap items-center gap-2 pr-12">
         <h3 className="text-2xl">{test.investigation_name}</h3>
         <Badge variant={test.ended_early ? "risk-medium" : "default"}>
-          {test.ended_early ? "Ended early" : "Burned to end"}
+          {test.ended_early === null
+            ? "Outcome not reported"
+            : test.ended_early
+              ? "Ended early"
+              : "Burned to end"}
         </Badge>
         {test.sample ? <Badge variant="risk-medium">[SAMPLE]</Badge> : null}
       </div>

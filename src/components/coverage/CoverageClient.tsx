@@ -13,12 +13,14 @@ import { BAND_FOOTNOTE, DEFAULT_HABITAT_ID, HABITAT_CHOICES, resolveHabitat } fr
 import { useInvestigations, useTests } from "@/lib/hooks";
 import { FLOW_LABEL, habitatBoxes } from "@/lib/plot";
 import { rankInvestigations } from "@/lib/relevance";
-import { FLOW_COLORS } from "@/lib/tokens";
+import { FLOW_COLORS, FLOW_UNKNOWN_COLOR } from "@/lib/tokens";
 import {
   FlowDirectionSchema,
   FuelClassSchema,
   PlatformSchema,
   splitByFuelClass,
+  isPlottable,
+  testKey,
   type FuelClass,
   type Platform,
 } from "@/lib/types";
@@ -84,8 +86,12 @@ function CoverageClient() {
     [testsQ.data, platforms],
   );
   const byClass = useMemo(() => splitByFuelClass(filtered), [filtered]);
-  const plotted = byClass[fuel]; // Hard rule 2: exactly one fuel class on the axes
-  const endedEarly = plotted.filter((t) => t.ended_early).length;
+  const ofClass = byClass[fuel]; // Hard rule 2: exactly one fuel class on the axes
+  // Tests without O2 or pressure cannot be placed; they stay in the table view.
+  const plotted = useMemo(() => ofClass.filter(isPlottable), [ofClass]);
+  const unplaced = ofClass.length - plotted.length;
+  const endedEarly = plotted.filter((t) => t.ended_early === true).length;
+  const outcomeUnknown = plotted.filter((t) => t.ended_early === null).length;
 
   const zones = useMemo(() => (showZones ? habitatBoxes(HABITAT_CHOICES) : []), [showZones]);
   const ranked = useMemo(
@@ -99,9 +105,15 @@ function CoverageClient() {
     () => (hoveredInv ? plotted.filter((t) => t.investigation_id === hoveredInv) : []),
     [hoveredInv, plotted],
   );
-  const selectedTest = plotted.find((t) => t.id === selectedTestId) ?? null;
+  const selectedTest = plotted.find((t) => testKey(t) === selectedTestId) ?? null;
 
-  const summary = `${plotted.length} ${FUEL_LABEL[fuel].toLowerCase()}-fuel test${plotted.length === 1 ? "" : "s"} plotted, ${endedEarly} ended early.`;
+  const summary =
+    `${plotted.length} ${FUEL_LABEL[fuel].toLowerCase()}-fuel test${plotted.length === 1 ? "" : "s"} plotted, ${endedEarly} ended early` +
+    (outcomeUnknown ? `, outcome not reported for ${outcomeUnknown}` : "") +
+    "." +
+    (unplaced
+      ? ` ${unplaced} more ${unplaced === 1 ? "has" : "have"} no O₂ or pressure value and ${unplaced === 1 ? "is" : "are"} only in the table view.`
+      : "");
   const loading = testsQ.isLoading || investigationsQ.isLoading;
   const error = testsQ.error ?? investigationsQ.error;
 
@@ -224,13 +236,13 @@ function CoverageClient() {
             className="h-[420px] w-full animate-pulse rounded-lg bg-muted md:h-[560px]"
             aria-hidden
           />
-        ) : plotted.length === 0 ? (
+        ) : ofClass.length === 0 ? (
           <EmptyState
             what={`${FUEL_LABEL[fuel].toLowerCase()}-fuel tests`}
             onReset={() => update((p) => p.delete("platform"))}
           />
         ) : tableView ? (
-          <TestDataTable title={`${FUEL_LABEL[fuel]}-fuel tests plotted`} rows={plotted} />
+          <TestDataTable title={`${FUEL_LABEL[fuel]}-fuel tests`} rows={ofClass} />
         ) : (
           <CoverageMap
             tests={plotted}
@@ -256,6 +268,14 @@ function CoverageClient() {
                 {FLOW_LABEL[d]}
               </li>
             ))}
+            <li className="inline-flex items-center gap-2">
+              <span
+                aria-hidden
+                className="size-4 rounded-full"
+                style={{ backgroundColor: FLOW_UNKNOWN_COLOR }}
+              />
+              Flow not reported
+            </li>
           </ul>
           <ul aria-label="How to read the markers" className="space-y-1 text-muted-foreground">
             <li className="flex items-start gap-2">
@@ -273,6 +293,13 @@ function CoverageClient() {
               <span>
                 <strong className="text-foreground">Hollow</strong> = ended early (flame still
                 burning, true limit may be lower).
+              </span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span aria-hidden className="mt-1.5 size-3 shrink-0 rotate-45 bg-foreground" />
+              <span>
+                <strong className="text-foreground">Diamond</strong> = outcome not reported (the
+                source does not say whether the flame was still burning).
               </span>
             </li>
             <li className="text-sm">{BAND_FOOTNOTE}</li>

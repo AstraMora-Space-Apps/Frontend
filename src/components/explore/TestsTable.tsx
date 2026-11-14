@@ -8,7 +8,7 @@ import { CitationChip } from "@/components/ui/citation-chip";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { downloadCsv, testsToCsv } from "@/lib/csv";
 import { FUEL_CLASSES, FUEL_LABEL, PLATFORM_LABEL } from "@/lib/filters";
-import { splitByFuelClass, type FuelClass, type TestRecord } from "@/lib/types";
+import { splitByFuelClass, testKey, type FuelClass, type TestRecord } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { FUEL_BADGE } from "./InvestigationCard";
 
@@ -58,7 +58,14 @@ export function sortTests(rows: readonly TestRecord[], sort: Sort): TestRecord[]
 const ENDED_EARLY_HINT =
   "The flame was still burning when the experiment ended, so the true limit may be lower.";
 
-function Outcome({ endedEarly }: { endedEarly: boolean }) {
+function Outcome({ endedEarly }: { endedEarly: boolean | null }) {
+  if (endedEarly === null) {
+    return (
+      <Badge variant="default" className="border-dashed text-muted-foreground">
+        Outcome not reported
+      </Badge>
+    );
+  }
   if (!endedEarly) {
     return (
       <Badge variant="default">
@@ -177,8 +184,8 @@ function TestTable({
             </tr>
           </thead>
           <tbody>
-            {slice.map((t) => (
-              <tr key={t.id} className="hover:bg-surface-raised/50">
+            {slice.map((t, i) => (
+              <tr key={`${testKey(t)}-${i}`} className="hover:bg-surface-raised/50">
                 <td className="border-b border-border px-3 py-2 font-medium">
                   {t.investigation_name}
                 </td>
@@ -186,7 +193,9 @@ function TestTable({
                 <td className="border-b border-border px-3 py-2">
                   <Badge variant={FUEL_BADGE[t.fuel_class]}>{FUEL_LABEL[t.fuel_class]}</Badge>
                 </td>
-                <td className="border-b border-border px-3 py-2 capitalize">{t.flow_direction}</td>
+                <td className="border-b border-border px-3 py-2 capitalize">
+                  {t.flow_direction ?? "Not reported"}
+                </td>
                 <td className="border-b border-border px-3 py-2 text-right tabular-nums">
                   {num(t.o2_percent)}
                 </td>
@@ -218,8 +227,11 @@ function TestTable({
 
       {/* below md: stacked cards */}
       <ul className="space-y-3 md:hidden">
-        {slice.map((t) => (
-          <li key={t.id} className="rounded-card border border-border bg-surface p-4">
+        {slice.map((t, i) => (
+          <li
+            key={`${testKey(t)}-${i}`}
+            className="rounded-card border border-border bg-surface p-4"
+          >
             <div className="flex flex-wrap items-start justify-between gap-2">
               <div className="min-w-0">
                 <p className="font-bold">{t.investigation_name}</p>
@@ -230,15 +242,19 @@ function TestTable({
             <dl className="mt-3 grid grid-cols-2 gap-x-3 gap-y-2 text-base">
               <div>
                 <dt className="text-sm text-muted-foreground">O₂</dt>
-                <dd className="tabular-nums">{num(t.o2_percent)} %</dd>
+                <dd className="tabular-nums">
+                  {t.o2_percent === null ? "Not reported" : `${num(t.o2_percent)} %`}
+                </dd>
               </div>
               <div>
                 <dt className="text-sm text-muted-foreground">Pressure</dt>
-                <dd className="tabular-nums">{num(t.pressure_psi)} psi</dd>
+                <dd className="tabular-nums">
+                  {t.pressure_psi === null ? "Not reported" : `${num(t.pressure_psi)} psi`}
+                </dd>
               </div>
               <div>
                 <dt className="text-sm text-muted-foreground">Flow</dt>
-                <dd className="capitalize">{t.flow_direction}</dd>
+                <dd className="capitalize">{t.flow_direction ?? "Not reported"}</dd>
               </div>
               <div>
                 <dt className="text-sm text-muted-foreground">Flow speed</dt>

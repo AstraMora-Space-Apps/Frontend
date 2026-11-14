@@ -7,11 +7,28 @@ import type { Data, Layout, Shape } from "plotly.js";
 
 type Annotation = NonNullable<Layout["annotations"]>[number];
 import { isConfirmed, type ConfirmedHabitat, type Habitat } from "@/lib/habitats";
-import { CHART, FLOW_COLORS } from "@/lib/tokens";
-import { FlowDirectionSchema, type FlowDirection, type TestRecord } from "@/lib/types";
+import { CHART, FLOW_COLORS, FLOW_UNKNOWN_COLOR } from "@/lib/tokens";
+import {
+  FlowDirectionSchema,
+  testKey,
+  type FlowDirection,
+  type PlottableTest,
+  type TestRecord,
+} from "@/lib/types";
 
 export const X_RANGE: [number, number] = [0, 100];
 export const Y_RANGE: [number, number] = [0, 16];
+
+/**
+ * Pressure axis: 0-16 psi by default, extended (to the next even number) when tests go higher,
+ * so no plotted point is ever cut off. (M7: live data reaches ~73 psi.)
+ */
+export function pressureAxisRange(
+  tests: readonly Pick<PlottableTest, "pressure_psi">[],
+): [number, number] {
+  const max = tests.reduce((m, t) => Math.max(m, t.pressure_psi), 0);
+  return max <= Y_RANGE[1] ? Y_RANGE : [0, Math.ceil((max + 1) / 2) * 2];
+}
 export const MARKER_SIZE = 11;
 
 export const FLOW_LABEL: Record<FlowDirection, string> = {
@@ -20,24 +37,35 @@ export const FLOW_LABEL: Record<FlowDirection, string> = {
   quiescent: "Quiescent",
 };
 
+export const flowLabel = (d: FlowDirection | null) =>
+  d === null ? "Flow not reported" : FLOW_LABEL[d];
+
+/** Outcome text. null = censoring not reported: never presented as an observed outcome. */
+export const outcomeText = (endedEarly: boolean | null) =>
+  endedEarly === null
+    ? "Not reported"
+    : endedEarly
+      ? "Ended early (flame still burning)"
+      : "Burned to end";
+
 const PLATFORM_TEXT: Record<TestRecord["platform"], string> = {
   iss: "ISS",
   drop_tower: "Drop tower",
   other: "Other",
 };
 
-/** customdata column order; index 0 is the test id used for click handling. */
-function customRow(t: TestRecord): (string | number)[] {
+/** customdata column order; index 0 is the unique test key (testKey) used for click handling. */
+function customRow(t: PlottableTest): (string | number)[] {
   return [
-    t.id,
+    testKey(t),
     t.investigation_name,
     t.fuel,
-    FLOW_LABEL[t.flow_direction],
+    flowLabel(t.flow_direction),
     t.o2_percent,
     t.pressure_psi,
     t.flow_speed_cm_s === null ? "not reported" : `${t.flow_speed_cm_s} cm/s`,
     PLATFORM_TEXT[t.platform],
-    t.ended_early ? "Ended early (flame still burning)" : "Burned to end",
+    outcomeText(t.ended_early),
     t.sample ? "<br><b>[SAMPLE]</b>" : "",
   ];
 }
@@ -53,31 +81,51 @@ const HOVER_TEMPLATE =
   "Outcome: %{customdata[8]}" +
   "<extra></extra>";
 
-/** Six traces: per flow direction, filled (outcome observed) and hollow (ended early). */
-export function buildTestTraces(tests: readonly TestRecord[]): Data[] {
+const OUTCOMES = [false, true, null] as const;
+
+/**
+ * One trace per (flow direction or "not reported") x outcome, skipping empty ones.
+ * Filled circle = burned to end, hollow circle = ended early (Hard rule 3),
+ * diamond = outcome not reported (we do not know whether the flame was still burning).
+ */
+export function buildTestTraces(tests: readonly PlottableTest[]): Data[] {
   const traces: Data[] = [];
-  for (const dir of FlowDirectionSchema.options) {
-    for (const endedEarly of [false, true]) {
+  for (const dir of [...FlowDirectionSchema.options, null] as const) {
+    for (const endedEarly of OUTCOMES) {
       const pts = tests.filter((t) => t.flow_direction === dir && t.ended_early === endedEarly);
       if (pts.length === 0) continue;
-      const color = FLOW_COLORS[dir];
+      const color = dir === null ? FLOW_UNKNOWN_COLOR : FLOW_COLORS[dir];
+      const base = flowLabel(dir);
       traces.push({
         type: "scatter",
         mode: "markers",
-        name: endedEarly ? `${FLOW_LABEL[dir]}, ended early` : FLOW_LABEL[dir],
-        legendgroup: dir,
+        name:
+          endedEarly === null
+            ? `${base}, outcome not reported`
+            : endedEarly
+              ? `${base}, ended early`
+              : base,
+        legendgroup: dir ?? "unknown",
         x: pts.map((t) => t.o2_percent),
         y: pts.map((t) => t.pressure_psi),
         customdata: pts.map(customRow),
         hovertemplate: HOVER_TEMPLATE,
-        marker: endedEarly
-          ? { symbol: "circle-open", size: MARKER_SIZE, color, line: { width: 2.5, color } }
-          : {
-              symbol: "circle",
-              size: MARKER_SIZE,
-              color,
-              line: { width: 1, color: CHART.surface },
-            },
+        marker:
+          endedEarly === null
+            ? {
+                symbol: "diamond",
+                size: MARKER_SIZE,
+                color,
+                line: { width: 1, color: CHART.surface },
+              }
+            : endedEarly
+              ? { symbol: "circle-open", size: MARKER_SIZE, color, line: { width: 2.5, color } }
+              : {
+                  symbol: "circle",
+                  size: MARKER_SIZE,
+                  color,
+                  line: { width: 1, color: CHART.surface },
+                },
       });
     }
   }
@@ -85,7 +133,7 @@ export function buildTestTraces(tests: readonly TestRecord[]): Data[] {
 }
 
 /** Non-interactive ember rings around the given tests (hovered finder row / selected point). */
-export function buildHighlightTrace(tests: readonly TestRecord[], name = "highlight"): Data {
+export function buildHighlightTrace(tests: readonly PlottableTest[], name = "highlight"): Data {
   return {
     type: "scatter",
     mode: "markers",

@@ -24,6 +24,9 @@ export const FLOW_COLORS: Record<FlowDirection, string> = {
   quiescent: "#CC79A7",
 };
 
+/** Flow direction not reported: neutral grey, labelled in legend and hover. */
+export const FLOW_UNKNOWN_COLOR = "#9FB0CC";
+
 /** Muted hues for habitat reference bands (drawn at 0.15 opacity with a 1px border). */
 export const HABITAT_COLORS = {
   earth: "#8FBC8F",
