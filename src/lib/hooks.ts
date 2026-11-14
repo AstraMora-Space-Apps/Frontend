@@ -10,6 +10,7 @@ import {
   ask,
   getInsights,
   getInvestigations,
+  getSafetyMargins,
   getTests,
   type ApiError,
   type ApiResult,
@@ -65,6 +66,16 @@ export function useInsights() {
   const q = useQuery({
     queryKey: ["insights"],
     queryFn: () => getInsights(),
+    staleTime: staleOnError,
+  });
+  return unwrap(q.data, q.isPending, () => void q.refetch());
+}
+
+/** Paired 1-g vs microgravity oxygen limits (M8). */
+export function useSafetyMargins() {
+  const q = useQuery({
+    queryKey: ["safety-margins"],
+    queryFn: () => getSafetyMargins(),
     staleTime: staleOnError,
   });
   return unwrap(q.data, q.isPending, () => void q.refetch());

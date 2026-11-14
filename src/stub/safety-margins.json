@@ -1,0 +1,289 @@
+[
+  {
+    "id": "sample-a",
+    "material": "[SAMPLE] Material A",
+    "category": "[SAMPLE] Category",
+    "fuel_class": "solid",
+    "pressure_psi": 14.7,
+    "flow_speed_cm_s": 5,
+    "loc_1g_percent": 24,
+    "loc_microgravity_percent": 19,
+    "loc_1g_is_bound": false,
+    "loc_microgravity_is_bound": false,
+    "platform_microgravity": "iss",
+    "evidence": {
+      "test_count": 6,
+      "platform": "iss",
+      "repeats": 2,
+      "strength": "medium"
+    },
+    "citations": [
+      {
+        "paper_title": "[SAMPLE] Placeholder paper 300, not a real publication",
+        "investigation": "[SAMPLE]",
+        "page": 3,
+        "quote": "[SAMPLE] Placeholder passage 300. This is not real text from any source.",
+        "source_url": null
+      }
+    ],
+    "note": "[SAMPLE] Invented values for layout testing. Both limits exact; microgravity limit lower.",
+    "sample": true
+  },
+  {
+    "id": "sample-b",
+    "material": "[SAMPLE] Material B",
+    "category": "[SAMPLE] Category",
+    "fuel_class": "solid",
+    "pressure_psi": 10.2,
+    "flow_speed_cm_s": 3,
+    "loc_1g_percent": 28,
+    "loc_microgravity_percent": 22,
+    "loc_1g_is_bound": false,
+    "loc_microgravity_is_bound": false,
+    "platform_microgravity": "iss",
+    "evidence": {
+      "test_count": 4,
+      "platform": "iss",
+      "repeats": 1,
+      "strength": "low"
+    },
+    "citations": [
+      {
+        "paper_title": "[SAMPLE] Placeholder paper 301, not a real publication",
+        "investigation": "[SAMPLE]",
+        "page": 4,
+        "quote": "[SAMPLE] Placeholder passage 301. This is not real text from any source.",
+        "source_url": null
+      }
+    ],
+    "note": "[SAMPLE] Invented values for layout testing. Both limits exact; microgravity limit lower.",
+    "sample": true
+  },
+  {
+    "id": "sample-c",
+    "material": "[SAMPLE] Material C",
+    "category": "[SAMPLE] Category",
+    "fuel_class": "solid",
+    "pressure_psi": 14.7,
+    "flow_speed_cm_s": 10,
+    "loc_1g_percent": 33,
+    "loc_microgravity_percent": 26,
+    "loc_1g_is_bound": false,
+    "loc_microgravity_is_bound": true,
+    "platform_microgravity": "iss",
+    "evidence": {
+      "test_count": 3,
+      "platform": "iss",
+      "repeats": 1,
+      "strength": "low"
+    },
+    "citations": [
+      {
+        "paper_title": "[SAMPLE] Placeholder paper 302, not a real publication",
+        "investigation": "[SAMPLE]",
+        "page": 5,
+        "quote": "[SAMPLE] Placeholder passage 302. This is not real text from any source.",
+        "source_url": null
+      }
+    ],
+    "note": "[SAMPLE] Invented values for layout testing. Microgravity value is a bound: flame still burning at the lowest oxygen tested.",
+    "sample": true
+  },
+  {
+    "id": "sample-d",
+    "material": "[SAMPLE] Material D",
+    "category": "[SAMPLE] Category",
+    "fuel_class": "solid",
+    "pressure_psi": 14.7,
+    "flow_speed_cm_s": 20,
+    "loc_1g_percent": 35,
+    "loc_microgravity_percent": 36,
+    "loc_1g_is_bound": false,
+    "loc_microgravity_is_bound": false,
+    "platform_microgravity": "drop_tower",
+    "evidence": {
+      "test_count": 5,
+      "platform": "drop_tower",
+      "repeats": 2,
+      "strength": "medium"
+    },
+    "citations": [
+      {
+        "paper_title": "[SAMPLE] Placeholder paper 303, not a real publication",
+        "investigation": "[SAMPLE]",
+        "page": 6,
+        "quote": "[SAMPLE] Placeholder passage 303. This is not real text from any source.",
+        "source_url": null
+      }
+    ],
+    "note": "[SAMPLE] Invented values for layout testing. Microgravity limit higher than 1-g.",
+    "sample": true
+  },
+  {
+    "id": "sample-e",
+    "material": "[SAMPLE] Material E",
+    "category": "[SAMPLE] Category",
+    "fuel_class": "solid",
+    "pressure_psi": 10.2,
+    "flow_speed_cm_s": 5,
+    "loc_1g_percent": 31,
+    "loc_microgravity_percent": 31,
+    "loc_1g_is_bound": false,
+    "loc_microgravity_is_bound": false,
+    "platform_microgravity": "drop_tower",
+    "evidence": {
+      "test_count": 2,
+      "platform": "drop_tower",
+      "repeats": 0,
+      "strength": "low"
+    },
+    "citations": [
+      {
+        "paper_title": "[SAMPLE] Placeholder paper 304, not a real publication",
+        "investigation": "[SAMPLE]",
+        "page": 7,
+        "quote": "[SAMPLE] Placeholder passage 304. This is not real text from any source.",
+        "source_url": null
+      }
+    ],
+    "note": "[SAMPLE] Invented values for layout testing. Microgravity limit equal to 1-g.",
+    "sample": true
+  },
+  {
+    "id": "sample-f",
+    "material": "[SAMPLE] Material F",
+    "category": "[SAMPLE] Category",
+    "fuel_class": "solid",
+    "pressure_psi": 14.7,
+    "flow_speed_cm_s": 2,
+    "loc_1g_percent": 22,
+    "loc_microgravity_percent": 18,
+    "loc_1g_is_bound": false,
+    "loc_microgravity_is_bound": true,
+    "platform_microgravity": "iss",
+    "evidence": {
+      "test_count": 8,
+      "platform": "iss",
+      "repeats": 3,
+      "strength": "high"
+    },
+    "citations": [
+      {
+        "paper_title": "[SAMPLE] Placeholder paper 305, not a real publication",
+        "investigation": "[SAMPLE]",
+        "page": 8,
+        "quote": "[SAMPLE] Placeholder passage 305. This is not real text from any source.",
+        "source_url": null
+      }
+    ],
+    "note": "[SAMPLE] Invented values for layout testing. Microgravity value is a bound, below Earth oxygen.",
+    "sample": true
+  },
+  {
+    "id": "sample-g",
+    "material": "[SAMPLE] Material G",
+    "category": "[SAMPLE] Category",
+    "fuel_class": "solid",
+    "pressure_psi": 14.7,
+    "flow_speed_cm_s": 8,
+    "loc_1g_percent": 40,
+    "loc_microgravity_percent": 34,
+    "loc_1g_is_bound": false,
+    "loc_microgravity_is_bound": true,
+    "platform_microgravity": "iss",
+    "evidence": {
+      "test_count": 3,
+      "platform": "iss",
+      "repeats": 1,
+      "strength": "low"
+    },
+    "citations": [
+      {
+        "paper_title": "[SAMPLE] Placeholder paper 306, not a real publication",
+        "investigation": "[SAMPLE]",
+        "page": 9,
+        "quote": "[SAMPLE] Placeholder passage 306. This is not real text from any source.",
+        "source_url": null
+      }
+    ],
+    "note": "[SAMPLE] Invented values for layout testing. Microgravity value is a bound above Moon Base oxygen, so the habitat comparison is unknown.",
+    "sample": true
+  },
+  {
+    "id": "sample-h",
+    "material": "[SAMPLE] Material H",
+    "category": "[SAMPLE] Category",
+    "fuel_class": "solid",
+    "pressure_psi": null,
+    "flow_speed_cm_s": 4,
+    "loc_1g_percent": 26,
+    "loc_microgravity_percent": 24,
+    "loc_1g_is_bound": true,
+    "loc_microgravity_is_bound": false,
+    "platform_microgravity": "other",
+    "evidence": {
+      "test_count": 2,
+      "platform": "other",
+      "repeats": 1,
+      "strength": "low"
+    },
+    "citations": [
+      {
+        "paper_title": "[SAMPLE] Placeholder paper 307, not a real publication",
+        "investigation": "[SAMPLE]",
+        "page": 10,
+        "quote": "[SAMPLE] Placeholder passage 307. This is not real text from any source.",
+        "source_url": null
+      }
+    ],
+    "note": "[SAMPLE] Invented values for layout testing. 1-g value is a bound, so the reduction cannot be determined.",
+    "sample": true
+  },
+  {
+    "id": "sample-i",
+    "material": "[SAMPLE] Material I",
+    "category": "[SAMPLE] Category",
+    "fuel_class": "solid",
+    "pressure_psi": 14.7,
+    "flow_speed_cm_s": null,
+    "loc_1g_percent": 29,
+    "loc_microgravity_percent": null,
+    "loc_1g_is_bound": false,
+    "loc_microgravity_is_bound": false,
+    "platform_microgravity": null,
+    "evidence": null,
+    "citations": [],
+    "note": "[SAMPLE] Invented values for layout testing. Unpaired: no microgravity value.",
+    "sample": true
+  },
+  {
+    "id": "sample-j",
+    "material": "[SAMPLE] Material J",
+    "category": "[SAMPLE] Category",
+    "fuel_class": "solid",
+    "pressure_psi": 14.7,
+    "flow_speed_cm_s": 15,
+    "loc_1g_percent": 45,
+    "loc_microgravity_percent": 41,
+    "loc_1g_is_bound": false,
+    "loc_microgravity_is_bound": false,
+    "platform_microgravity": "iss",
+    "evidence": {
+      "test_count": 4,
+      "platform": "iss",
+      "repeats": 2,
+      "strength": "medium"
+    },
+    "citations": [
+      {
+        "paper_title": "[SAMPLE] Placeholder paper 309, not a real publication",
+        "investigation": "[SAMPLE]",
+        "page": 12,
+        "quote": "[SAMPLE] Placeholder passage 309. This is not real text from any source.",
+        "source_url": null
+      }
+    ],
+    "note": "[SAMPLE] Invented values for layout testing. Both limits exact; above both habitat levels.",
+    "sample": true
+  }
+]

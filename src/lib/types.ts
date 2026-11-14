@@ -167,11 +167,70 @@ export const InsightSchema = z
   });
 export type Insight = z.infer<typeof InsightSchema>;
 
+/* ----------------------------------------------------------- SafetyMargin */
+
+/**
+ * One material's oxygen limit in normal gravity (1-g) vs microgravity (M8, preliminary).
+ * Limit = lowest O2 (percent) at which a flame was sustained in the tests.
+ * *_is_bound = the true limit was not reached (flame still burning at the lowest O2 tested),
+ * so the true limit is at or below the value shown (Hard rule 3: drawn hatched, labelled "≤").
+ */
+export const SafetyMarginSchema = z.object({
+  id: z.string(),
+  material: z.string().min(1),
+  /** Material family as sent by the source, e.g. "Fabric". null when not reported. */
+  category: z.string().nullable().default(null),
+  /** Solid materials only: gas flames are never compared with solids (Hard rule 2). */
+  fuel_class: z.literal("solid"),
+  pressure_psi: z.number().nonnegative().nullable().default(null),
+  flow_speed_cm_s: z.number().nonnegative().nullable().default(null),
+  loc_1g_percent: z.number().min(0).max(100).nullable().default(null),
+  loc_microgravity_percent: z.number().min(0).max(100).nullable().default(null),
+  loc_1g_is_bound: z.boolean().default(false),
+  loc_microgravity_is_bound: z.boolean().default(false),
+  /** null when not reported (the deployed backend does not send it yet). */
+  platform_microgravity: PlatformSchema.nullable().default(null),
+  evidence: EvidenceSchema.nullable().default(null),
+  citations: z.array(CitationSchema).default([]),
+  note: z.string().nullable().default(null),
+  sample: z.boolean().default(false),
+});
+export type SafetyMargin = z.infer<typeof SafetyMarginSchema>;
+
+/** What the page receives: solid-fuel margins plus how many non-solid rows were left out. */
+export type SafetyMarginSet = {
+  margins: SafetyMargin[];
+  /** Rows dropped because they are not solid fuels (Hard rule 2). */
+  excluded_non_solid: number;
+};
+
+/**
+ * Shape actually served by the deployed backend at GET /api/safety-margins (M8).
+ * Mapped to SafetyMargin in src/lib/api.ts; mapping documented in docs/API_ASSUMPTIONS.md.
+ */
+export const LiveSafetyMarginSchema = z.object({
+  material: z.string().min(1),
+  category: z.string().nullable().default(null),
+  limit_1g_o2_percent: z.number().nullable().default(null),
+  limit_ug_o2_percent: z.number().nullable().default(null),
+  /** Backend sign convention: microgravity minus 1-g. Not used; the front end computes its own. */
+  delta_o2_percent: z.number().nullable().default(null),
+  pressure_psi: z.number().nullable().default(null),
+  flow_speed_cm_s: z.number().nullable().default(null),
+  danger_direction: z.string().nullable().default(null),
+  /** Free text such as "BASS-II_001, p. 4". */
+  citation: z.string().nullable().default(null),
+  notes: z.string().nullable().default(null),
+});
+export type LiveSafetyMargin = z.infer<typeof LiveSafetyMarginSchema>;
+
 /* ------------------------------------------------------------ list schemas */
 
 export const InvestigationListSchema = z.array(InvestigationSchema);
 export const TestRecordListSchema = z.array(TestRecordSchema);
 export const InsightListSchema = z.array(InsightSchema);
+export const SafetyMarginListSchema = z.array(SafetyMarginSchema);
+export const LiveSafetyMarginListSchema = z.array(LiveSafetyMarginSchema);
 
 /** Shape of src/stub/ask.json. Stub-only. */
 export const AskStubFileSchema = z.object({

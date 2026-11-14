@@ -11,11 +11,17 @@ import {
   AskStubFileSchema,
   InsightListSchema,
   InvestigationListSchema,
+  LiveSafetyMarginListSchema,
+  SafetyMarginListSchema,
   TestRecordListSchema,
   type AskResponse,
   type Insight,
   type Investigation,
   type InvestigationFilters,
+  type LiveSafetyMargin,
+  type Citation,
+  type FuelClass,
+  type SafetyMarginSet,
   type TestFilters,
   type TestRecord,
 } from "@/lib/types";
@@ -220,6 +226,71 @@ const loadInvestigations = () => import("@/stub/investigations.json");
 const loadTests = () => import("@/stub/tests.json");
 const loadInsights = () => import("@/stub/insights.json");
 const loadAsk = () => import("@/stub/ask.json");
+const loadSafetyMargins = () => import("@/stub/safety-margins.json");
+
+/* ------------------------------------------------- safety-margin mapping (M8) */
+
+/** Live safety margins path. The plan assumed /safety-margins; the deployed backend serves this. */
+export const SAFETY_MARGINS_PATH = "/api/safety-margins";
+
+/** "BASS-II_001, p. 4" -> { paper_title: "BASS-II_001", page: 4 }. No quote is sent. */
+export function parseCitationText(text: string): Citation {
+  const m = /^(.*?),s*p(?:age|.)?s*(d+)s*$/i.exec(text.trim());
+  return {
+    paper_title: (m?.[1] ?? text).trim() || text,
+    investigation: "",
+    page: m ? Number(m[2]) : null,
+    quote: "",
+    source_url: null,
+  };
+}
+
+/** Live rows carry a free-text category only; a "gas" category is a gas flame (Hard rule 2). */
+const liveFuelClass = (category: string | null): FuelClass =>
+  category && /gas/i.test(category) ? "gas" : "solid";
+
+const slug = (s: string) =>
+  s
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+
+/**
+ * Maps a deployed-backend row to the canonical SafetyMargin input. Fields the backend does not
+ * send stay unknown: bound flags false (backend reports values as limits), platform and
+ * evidence null. Logged in docs/API_ASSUMPTIONS.md.
+ */
+export function mapLiveSafetyMargin(row: LiveSafetyMargin, index: number) {
+  const citation = row.citation?.trim();
+  return {
+    id: `${index}-${slug(row.material)}`,
+    material: row.material,
+    category: row.category,
+    fuel_class: liveFuelClass(row.category),
+    pressure_psi: row.pressure_psi,
+    flow_speed_cm_s: row.flow_speed_cm_s,
+    loc_1g_percent: row.limit_1g_o2_percent,
+    loc_microgravity_percent: row.limit_ug_o2_percent,
+    loc_1g_is_bound: false,
+    loc_microgravity_is_bound: false,
+    platform_microgravity: null,
+    evidence: null,
+    citations: citation ? [parseCitationText(citation)] : [],
+    note: row.notes?.trim() ? row.notes.trim() : null,
+    sample: false,
+  };
+}
+
+/** Drops non-solid rows (counted), then validates the rest against the canonical schema. */
+function toSafetyMarginSet(
+  rows: ReadonlyArray<{ fuel_class: FuelClass }>,
+  source: DataSource,
+): ApiResult<SafetyMarginSet> {
+  const solid = rows.filter((r) => r.fuel_class === "solid");
+  const parsed = validate(SafetyMarginListSchema, solid, source);
+  if (!parsed.ok) return parsed;
+  return ok({ margins: parsed.data, excluded_non_solid: rows.length - solid.length }, source);
+}
 
 /* -------------------------------------------------------------- public API */
 
@@ -270,6 +341,22 @@ export async function getTests(filters: TestFilters = {}): Promise<ApiResult<Tes
 export async function getInsights(): Promise<ApiResult<Insight[]>> {
   if (!isStubMode) return liveRequest("/insights", InsightListSchema);
   return stubLoad(loadInsights, InsightListSchema);
+}
+
+/**
+ * Paired 1-g vs microgravity oxygen limits (M8, preliminary). Solid materials only.
+ * A 404 means the backend has no safety-margin data yet; the page shows "not available yet".
+ */
+export async function getSafetyMargins(): Promise<ApiResult<SafetyMarginSet>> {
+  if (!isStubMode) {
+    const live = await liveRequest(SAFETY_MARGINS_PATH, LiveSafetyMarginListSchema);
+    if (!live.ok) return live;
+    return toSafetyMarginSet(live.data.map(mapLiveSafetyMargin), "live");
+  }
+  // Stub rows are validated as-is: a non-solid stub row fails validation (Hard rule 2).
+  const res = await stubLoad(loadSafetyMargins, SafetyMarginListSchema);
+  if (!res.ok) return res;
+  return ok({ margins: res.data, excluded_non_solid: 0 }, "stub");
 }
 
 /**
