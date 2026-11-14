@@ -131,3 +131,20 @@ The Explore page applies every filter client-side as well (`src/lib/filters.ts`)
 | Facets (hardware list, pressure bounds) | Derived client-side from unfiltered `/investigations` and `/tests` | assumed | Thejitha |
 | CSV `dataset_status` column | Stub CSV adds `dataset_status = "v0.1, preliminary / unverified"` on every row. Live `/export/csv` should add the same column | assumed | Thejitha |
 | CSV fuel-class view | When the per-test fuel-class switch is set, the CSV request sends that `fuel_class` | assumed | Thejitha |
+
+## Habitats and Coverage Map (M5)
+
+Habitat numbers live only in `src/lib/habitats.ts`.
+
+| Item | Assumed value | Status | Owner to confirm |
+|---|---|---|---|
+| Earth | 21 % O₂, 14.7 psi | confirmed (project plan) | Samadhi |
+| Moon Base | 30 % O₂, 10.2 psi | confirmed (project plan) | Samadhi |
+| Pressurised rover | Same atmosphere as Moon Base; drawn and ranked as one shared zone "Moon Base / pressurised rover" | confirmed (project plan) | Samadhi |
+| Spacesuit | 100 % O₂, 4.3 psi | confirmed (project plan) | Samadhi |
+| ISS | No values; listed as "values pending", not drawn or ranked | TBC | Samadhi |
+| Mars habitat | No values; listed as "values pending", not drawn or ranked | TBC | Samadhi |
+| Display band half-widths | O₂ ±2 % (spacesuit ±3 %, clamped at 100 %), pressure ±0.5 psi. Illustrative only: size the shaded boxes and the "tests in band" count. Not specifications | assumed (front end) | Samadhi |
+| Relevance distance | d = √(((O₂ − O₂ₕ)/100)² + ((p − pₕ)/16)²), normalised by chart range; investigation distance = closest test | assumed (front end) | Samadhi |
+| "Nearby" radius and labels | d ≤ 0.15 nearby; Very close ≤ 0.03, Close ≤ 0.08, Nearby ≤ 0.15, else Far | assumed (front end) | Samadhi |
+| Default habitat on /coverage | Moon Base (demo scene) when no `?habitat=` is given | front-end decision | Dinith |
