@@ -15,21 +15,21 @@ import {
   buildHabitatShapes,
   buildHighlightTrace,
   buildTestTraces,
+  pressureAxisRange,
   testIdFromPoint,
   X_RANGE,
-  Y_RANGE,
   type ZoneBox,
 } from "@/lib/plot";
-import type { TestRecord } from "@/lib/types";
+import type { PlottableTest } from "@/lib/types";
 import { useMediaQuery } from "@/lib/use-media-query";
 
 type CoverageMapProps = {
   /** Tests of exactly ONE fuel class (Hard rule 2). */
-  tests: readonly TestRecord[];
+  tests: readonly PlottableTest[];
   zones: readonly ZoneBox[];
   selectedHabitatId: string | null;
-  highlight: readonly TestRecord[];
-  selectedTest: TestRecord | null;
+  highlight: readonly PlottableTest[];
+  selectedTest: PlottableTest | null;
   onPointClick: (testId: string) => void;
   ariaLabel: string;
 };
@@ -54,18 +54,24 @@ function CoverageMap({
     return traces;
   }, [tests, highlight, selectedTest]);
 
+  const yRange = useMemo(() => pressureAxisRange(tests), [tests]);
+
   const layout = useMemo<Partial<Layout>>(() => {
     const base = baseLayout(fontFamily, compact);
     return {
       ...base,
       showlegend: !compact, // mobile: the HTML "How to read" key carries the colours
       xaxis: { ...axisStyle("Oxygen concentration (%)"), range: X_RANGE, dtick: compact ? 25 : 10 },
-      yaxis: { ...axisStyle("Total pressure (psi)"), range: Y_RANGE, dtick: compact ? 4 : 2 },
+      yaxis: {
+        ...axisStyle("Total pressure (psi)"),
+        range: yRange,
+        dtick: yRange[1] > 16 ? (compact ? 20 : 10) : compact ? 4 : 2,
+      },
       shapes: buildHabitatShapes(zones, selectedHabitatId),
       annotations: buildHabitatAnnotations(zones, selectedHabitatId, CHART_FONT_SIZE, compact),
       uirevision: "coverage", // keep zoom across data updates
     };
-  }, [fontFamily, compact, zones, selectedHabitatId]);
+  }, [fontFamily, compact, zones, selectedHabitatId, yRange]);
 
   return (
     <div role="figure" aria-label={ariaLabel} className="h-[420px] w-full md:h-[560px]">
