@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import type { Layout, PlotMouseEvent } from "plotly.js";
 import Plot from "@/components/charts/Plot";
+import { Reveal } from "@/components/motion/Reveal";
 import {
   axisStyle,
   baseConfig,
@@ -75,17 +76,19 @@ function CoverageMap({
 
   return (
     <div role="figure" aria-label={ariaLabel} className="h-[420px] w-full md:h-[560px]">
-      <Plot
-        data={data}
-        layout={layout}
-        config={baseConfig}
-        useResizeHandler
-        style={{ width: "100%", height: "100%" }}
-        onClick={(e: Readonly<PlotMouseEvent>) => {
-          const id = testIdFromPoint(e.points[0]?.customdata);
-          if (id) onPointClick(id);
-        }}
-      />
+      <Reveal className="h-full w-full">
+        <Plot
+          data={data}
+          layout={layout}
+          config={baseConfig}
+          useResizeHandler
+          style={{ width: "100%", height: "100%" }}
+          onClick={(e: Readonly<PlotMouseEvent>) => {
+            const id = testIdFromPoint(e.points[0]?.customdata);
+            if (id) onPointClick(id);
+          }}
+        />
+      </Reveal>
     </div>
   );
 }

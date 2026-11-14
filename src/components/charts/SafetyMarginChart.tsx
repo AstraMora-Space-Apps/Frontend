@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import type { Annotation, Data, Layout, PlotMouseEvent, Shape } from "plotly.js";
 import Plot from "@/components/charts/Plot";
+import { Reveal } from "@/components/motion/Reveal";
 import {
   axisStyle,
   baseConfig,
@@ -184,17 +185,19 @@ function SafetyMarginChart({
 
   return (
     <div role="figure" aria-label={ariaLabel} style={{ height: chartHeight(margins.length) }}>
-      <Plot
-        data={data}
-        layout={layout}
-        config={{ ...baseConfig, displayModeBar: false }}
-        useResizeHandler
-        style={{ width: "100%", height: "100%" }}
-        onClick={(e: Readonly<PlotMouseEvent>) => {
-          const id = e.points[0]?.customdata;
-          if (typeof id === "string") onSelect(id);
-        }}
-      />
+      <Reveal className="h-full w-full">
+        <Plot
+          data={data}
+          layout={layout}
+          config={{ ...baseConfig, displayModeBar: false }}
+          useResizeHandler
+          style={{ width: "100%", height: "100%" }}
+          onClick={(e: Readonly<PlotMouseEvent>) => {
+            const id = e.points[0]?.customdata;
+            if (typeof id === "string") onSelect(id);
+          }}
+        />
+      </Reveal>
     </div>
   );
 }
