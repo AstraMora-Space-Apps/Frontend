@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+  <!-- FlameSight favicon: original spherical flame mark. Colours mirror tokens in globals.css. -->
+  <defs>
+    <radialGradient id="f" cx="0.42" cy="0.4" r="0.62">
+      <stop offset="0" stop-color="#FFB347"/>
+      <stop offset="0.55" stop-color="#FF6B2C"/>
+      <stop offset="1" stop-color="#FF6B2C" stop-opacity="0.2"/>
+    </radialGradient>
+    <radialGradient id="c" cx="0.4" cy="0.38" r="0.5">
+      <stop offset="0" stop-color="#F4F6FB" stop-opacity="0.95"/>
+      <stop offset="1" stop-color="#FFB347" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="48" height="48" rx="12" fill="#070B14"/>
+  <circle cx="24" cy="24" r="14" fill="url(#f)"/>
+  <circle cx="21" cy="20.5" r="6.5" fill="url(#c)"/>
+  <ellipse cx="24" cy="24" rx="20" ry="7" transform="rotate(-20 24 24)" stroke="#5CE1E6" stroke-width="2"/>
+</svg>
