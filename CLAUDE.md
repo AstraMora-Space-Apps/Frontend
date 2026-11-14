@@ -34,6 +34,7 @@
 - Class names: merge with `cn()` from `@/lib/utils`.
 - Env vars: `NEXT_PUBLIC_API_BASE_URL`, `NEXT_PUBLIC_USE_STUB`. See `.env.example`. Never commit `.env*` files other than `.env.example`, and never commit API keys.
 - Do not add dependencies beyond those in `package.json` without asking first.
+- Never show "Built with AI assistance" or any AI-use disclosure anywhere in the UI (footer, About page, metadata). This overrides `docs/MILESTONES.md`.
 - Folders: `src/app` (routes), `src/components/{ui,layout,charts,ask,explore}`, `src/lib`, `src/stub` (sample JSON), `public`.
 
 ## Milestone workflow
