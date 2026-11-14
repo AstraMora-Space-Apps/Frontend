@@ -60,7 +60,7 @@ function AboutToc({ items }: { items: readonly TocItem[] }) {
           id={selectId}
           value={active}
           onChange={(e) => jump(e.target.value)}
-          className="mt-1 min-h-11 w-full rounded-lg border border-border bg-surface-raised px-3 text-base"
+          className="mt-1 min-h-11 w-full rounded-lg border border-input bg-surface-raised px-3 text-base"
         >
           {items.map((i) => (
             <option key={i.id} value={i.id}>

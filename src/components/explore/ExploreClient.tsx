@@ -23,6 +23,7 @@ import {
 } from "@/lib/filters";
 import { useInvestigations, useTests } from "@/lib/hooks";
 import { FuelClassSchema, type Investigation } from "@/lib/types";
+import { CountUp } from "@/components/motion/CountUp";
 import { CompareTray } from "./CompareTray";
 import { CompareView } from "./CompareView";
 import { Filters } from "./Filters";
@@ -144,10 +145,8 @@ function ExploreClient() {
     : undefined;
   const filterCount = activeFilterCount(filters);
   const loading = tab === "investigations" ? investigationsQ.isLoading : testsQ.isLoading;
-  const resultText =
-    tab === "investigations"
-      ? `${investigations.length} investigation${investigations.length === 1 ? "" : "s"} match`
-      : `${tests.length} test${tests.length === 1 ? "" : "s"} match`;
+  const resultCount = tab === "investigations" ? investigations.length : tests.length;
+  const resultLabel = `${tab === "investigations" ? "investigation" : "test"}${resultCount === 1 ? "" : "s"} match`;
 
   return (
     <div className="grid gap-8 pb-28 lg:grid-cols-[18rem_minmax(0,1fr)] lg:pb-10">
@@ -223,8 +222,15 @@ function ExploreClient() {
             </div>
           </div>
 
+          <h2 className="sr-only">Results</h2>
           <p className="text-base text-muted-foreground" role="status" aria-live="polite">
-            {loading ? "Loading…" : resultText}
+            {loading ? (
+              "Loading…"
+            ) : (
+              <>
+                <CountUp id="explore-results" value={resultCount} /> {resultLabel}
+              </>
+            )}
           </p>
 
           <TabsContent value="investigations" className="text-base">
@@ -246,8 +252,12 @@ function ExploreClient() {
               <EmptyState what="investigations" onReset={resetFilters} />
             ) : (
               <ul className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-                {investigations.map((inv) => (
-                  <li key={inv.id} className="min-w-0">
+                {investigations.map((inv, i) => (
+                  <li
+                    key={inv.id}
+                    className="stagger-item min-w-0"
+                    style={{ "--i": i } as React.CSSProperties}
+                  >
                     <InvestigationCard
                       inv={inv}
                       selected={selectedIds.includes(inv.id)}

@@ -84,8 +84,12 @@ function InsightsClient() {
         <EmptyState what="insights" onReset={() => setFilters(DEFAULT_INSIGHT_FILTERS)} />
       ) : (
         <ol className="space-y-5" aria-label="Ranked insights">
-          {ranked.map((r) => (
-            <li key={r.insight.id}>
+          {ranked.map((r, i) => (
+            <li
+              key={r.insight.id}
+              className="stagger-item"
+              style={{ "--i": i } as React.CSSProperties}
+            >
               <InsightCard ranked={r} highlighted={highlighted === insightAnchor(r.insight.id)} />
             </li>
           ))}

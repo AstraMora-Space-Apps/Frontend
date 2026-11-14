@@ -48,15 +48,14 @@ function ScoreBreakdown({ insight, score }: ScoreBreakdownProps) {
       </p>
       <dl className="mt-4 space-y-3">
         {FACTORS.map((f) => (
-          <div key={f.key}>
-            <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1">
-              <dt className="font-semibold">{f.label}</dt>
-              <dd className="flex items-center gap-3">
-                <Meter value={insight[f.key]} label={f.label} />
-                <span className="w-10 text-right font-bold tabular-nums">{insight[f.key]}/5</span>
-              </dd>
-            </div>
-            <p className="mt-0.5 text-sm text-muted-foreground">{f.definition}</p>
+          // A <div> may group one <dt> with its <dd>s; the definition is a second <dd>.
+          <div key={f.key} className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1">
+            <dt className="font-semibold">{f.label}</dt>
+            <dd className="flex items-center gap-3">
+              <Meter value={insight[f.key]} label={f.label} />
+              <span className="w-10 text-right font-bold tabular-nums">{insight[f.key]}/5</span>
+            </dd>
+            <dd className="mt-0.5 w-full text-sm text-muted-foreground">{f.definition}</dd>
           </div>
         ))}
       </dl>

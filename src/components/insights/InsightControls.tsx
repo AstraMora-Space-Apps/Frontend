@@ -2,6 +2,7 @@
 
 import { useId } from "react";
 import { RotateCcw } from "lucide-react";
+import { CountUp } from "@/components/motion/CountUp";
 import { Button } from "@/components/ui/button";
 import {
   DEFAULT_INSIGHT_FILTERS,
@@ -72,7 +73,7 @@ function InsightControls({ value, onChange, count }: InsightControlsProps) {
                 const s = SORTS.find((x) => x === e.target.value);
                 if (s) onChange({ ...value, sort: s satisfies InsightSort });
               }}
-              className="min-h-11 rounded-lg border border-border bg-surface-raised px-3 text-base"
+              className="min-h-11 rounded-lg border border-input bg-surface-raised px-3 text-base"
             >
               {SORTS.map((s) => (
                 <option key={s} value={s}>
@@ -94,7 +95,7 @@ function InsightControls({ value, onChange, count }: InsightControlsProps) {
         </div>
       </div>
       <p className="text-base text-muted-foreground" role="status" aria-live="polite">
-        {count} insight{count === 1 ? "" : "s"}
+        <CountUp id="insights-count" value={count} /> insight{count === 1 ? "" : "s"}
       </p>
     </div>
   );

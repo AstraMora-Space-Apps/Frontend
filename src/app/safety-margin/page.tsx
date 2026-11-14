@@ -1,15 +1,16 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/metadata";
 import { TriangleAlert } from "lucide-react";
 import { SafetyMarginClient } from "@/components/margin/SafetyMarginClient";
 import { Badge } from "@/components/ui/badge";
 import { PageHeader } from "@/components/ui/page-header";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Safety-margin explorer",
   description:
     "Preliminary comparison of oxygen limits in normal gravity and microgravity for paired solid materials.",
-};
+});
 
 export default function SafetyMarginPage() {
   return (

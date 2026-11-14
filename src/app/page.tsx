@@ -11,7 +11,11 @@ import { EmberSphere } from "@/components/layout/EmberSphere";
 import { FadeUp } from "@/components/layout/FadeUp";
 import { buttonVariants } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { resolveHabitat } from "@/lib/habitats";
 import { cn } from "@/lib/utils";
+
+/** Hero fact strip: numbers come from habitats.ts only. */
+const MOON_BASE = resolveHabitat("moon_base");
 
 const ENTRY_CARDS = [
   {
@@ -81,8 +85,16 @@ export default function Home() {
             <li className="flex items-center gap-3 rounded-card border border-border bg-surface px-5 py-4">
               <Wind className="size-6 shrink-0 text-cyan" aria-hidden />
               <span className="text-base">
-                <strong className="font-bold text-foreground">30% O₂ at 10.2 psi:</strong>{" "}
-                <span className="text-muted-foreground">planned Moon Base atmosphere</span>
+                {MOON_BASE ? (
+                  <>
+                    <strong className="font-bold text-foreground">
+                      {MOON_BASE.o2_percent} % O₂ at {MOON_BASE.pressure_psi} psi:
+                    </strong>{" "}
+                    <span className="text-muted-foreground">planned Moon Base atmosphere</span>
+                  </>
+                ) : (
+                  <span className="text-muted-foreground">Habitat atmospheres to be confirmed</span>
+                )}
               </span>
             </li>
             <li className="flex items-center gap-3 rounded-card border border-border bg-surface px-5 py-4">
@@ -101,10 +113,14 @@ export default function Home() {
         </h2>
         <ol className="mt-6 grid gap-5 md:grid-cols-3">
           {ENTRY_CARDS.map(({ step, title, body, href, cta, icon: Icon }) => (
-            <li key={href}>
+            <li
+              key={href}
+              className="fade-up"
+              style={{ "--fade-delay": `${0.15 + step * 0.06}s` } as React.CSSProperties}
+            >
               <Card
                 variant={step === 1 ? "glow" : "default"}
-                className="group relative flex h-full flex-col transition-colors hover:border-ember/60"
+                className="lift group relative flex h-full flex-col"
               >
                 <div className="flex items-center gap-3">
                   <span

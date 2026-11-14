@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/metadata";
 import { Info } from "lucide-react";
 import { CardSkeleton } from "@/components/explore/States";
 import { FormulaStrip } from "@/components/insights/FormulaStrip";
@@ -7,11 +8,11 @@ import { InsightsClient } from "@/components/insights/InsightsClient";
 import { PageHeader } from "@/components/ui/page-header";
 import { INSIGHTS_PROCESS_NOTE } from "@/lib/about-content";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Ranked safety insights",
   description:
     "Fire-safety insights scored with a transparent formula, each linked to its sources.",
-};
+});
 
 export default function InsightsPage() {
   return (

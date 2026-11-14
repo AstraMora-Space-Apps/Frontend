@@ -21,7 +21,8 @@
   --fs-background: #070b14;
   --fs-surface: #0e1626;
   --fs-surface-raised: #141f36;
-  --fs-border: #1e2a44;
+  --fs-border: #1e2a44; /* decorative card and divider lines */
+  --fs-border-strong: #5b6c90; /* form-control boundaries: >= 3:1 on background, surface, surface-raised (WCAG 1.4.11) */
   --fs-text: #f4f6fb;
   --fs-text-muted: #9fb0cc;
   --fs-ember: #ff6b2c;
@@ -56,7 +57,7 @@
   --accent-foreground: var(--fs-text);
   --destructive: var(--fs-risk-high);
   --border: var(--fs-border);
-  --input: var(--fs-border);
+  --input: var(--fs-border-strong);
   --ring: var(--fs-ember);
   --chart-1: var(--fs-ember);
   --chart-2: var(--fs-cyan);
@@ -238,11 +239,11 @@
   0%,
   100% {
     transform: scale(1);
-    filter: brightness(1);
+    opacity: 0.92;
   }
   50% {
     transform: scale(1.04);
-    filter: brightness(1.12);
+    opacity: 1;
   }
 }
 @keyframes ember-halo {
@@ -280,4 +281,47 @@
   to {
     transform: rotate(-18deg) scaleY(0.32) rotate(360deg);
   }
+}
+
+/* ---------------------------------------------------------------------------
+   M9 motion. CSS (not Framer) for anything server-rendered, so content is never
+   hidden before hydration. Transform and opacity only; nothing runs under reduced motion.
+   ------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: no-preference) {
+  /* Route change fade (app/template.tsx). Opacity only: no containing block for fixed bars. */
+  .page-fade {
+    animation: page-fade 180ms ease-out both;
+  }
+  /* Card grids: set --i on each item; delay is capped so long lists never wait. */
+  .stagger-item {
+    animation: fade-up 0.45s cubic-bezier(0.22, 1, 0.36, 1) calc(min(var(--i, 0), 8) * 45ms) both;
+  }
+  .lift {
+    transition:
+      transform 150ms ease,
+      box-shadow 150ms ease,
+      border-color 150ms ease;
+  }
+  .lift:hover,
+  .lift:focus-within {
+    transform: translateY(-2px);
+  }
+}
+/* Interactive cards: ember glow on hover and keyboard focus (also without motion). */
+.lift:hover,
+.lift:focus-within {
+  border-color: rgb(255 107 44 / 0.55);
+  box-shadow: var(--fs-shadow-glow);
+}
+@keyframes page-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+/* Pause the hero sphere while the tab is hidden (components/layout/TabVisibility.tsx). */
+html[data-tab-hidden] .ember-sphere * {
+  animation-play-state: paused;
 }

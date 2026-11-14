@@ -175,7 +175,7 @@ function Filters({
               if (!debounceSearch) set({ q: e.target.value });
             }}
             placeholder="Name, fuel, objective…"
-            className="min-h-11 w-full rounded-lg border border-border bg-surface-raised py-2 pr-3 pl-10 text-base text-foreground placeholder:text-muted-foreground"
+            className="min-h-11 w-full rounded-lg border border-input bg-surface-raised py-2 pr-3 pl-10 text-base text-foreground placeholder:text-muted-foreground"
           />
         </div>
       </div>
@@ -212,7 +212,7 @@ function Filters({
           id={hwId}
           value={value.hardware}
           onChange={(e) => set({ hardware: e.target.value })}
-          className="min-h-11 w-full rounded-lg border border-border bg-surface-raised px-3 text-base text-foreground"
+          className="min-h-11 w-full rounded-lg border border-input bg-surface-raised px-3 text-base text-foreground"
         >
           <option value="">Any hardware</option>
           {hardwareOptions.map((h) => (

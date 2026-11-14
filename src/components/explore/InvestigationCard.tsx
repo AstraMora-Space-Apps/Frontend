@@ -41,7 +41,7 @@ function ChipList({ label, items }: { label: string; items: readonly string[] })
                 type="button"
                 onClick={() => setAll((v) => !v)}
                 aria-expanded={all}
-                className="min-h-8 rounded-md px-2 text-sm font-semibold text-cyan hover:underline"
+                className="min-h-11 rounded-md px-2 text-sm font-semibold text-cyan hover:underline"
               >
                 {all ? "Show less" : `+${rest} more`}
               </button>
@@ -68,7 +68,7 @@ function InvestigationCard({ inv, selected, onToggleSelect, onViewTests }: Inves
   return (
     <Card
       variant={selected ? "glow" : "default"}
-      className="flex h-full min-w-0 flex-col gap-4 p-5"
+      className="lift flex h-full min-w-0 flex-col gap-4 p-5"
       aria-label={inv.name}
       role="article"
     >
@@ -96,7 +96,7 @@ function InvestigationCard({ inv, selected, onToggleSelect, onViewTests }: Inves
             aria-expanded={expanded}
             aria-controls={objectiveId}
             onClick={() => setExpanded((v) => !v)}
-            className="mt-1 min-h-8 text-sm font-semibold text-cyan hover:underline"
+            className="mt-1 min-h-11 text-sm font-semibold text-cyan hover:underline"
           >
             {expanded ? "Show less" : "Read more"}
           </button>

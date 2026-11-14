@@ -81,7 +81,7 @@ function Outcome({ endedEarly }: { endedEarly: boolean | null }) {
           <button
             type="button"
             aria-label={`Ended early. ${ENDED_EARLY_HINT}`}
-            className="inline-flex min-h-9 items-center gap-1.5 rounded-pill border border-risk-medium/60 bg-risk-medium/10 px-3 text-sm font-medium text-risk-medium"
+            className="inline-flex min-h-11 items-center gap-1.5 rounded-pill border border-risk-medium/60 bg-risk-medium/10 px-3 text-sm font-medium text-risk-medium"
           />
         }
       >
