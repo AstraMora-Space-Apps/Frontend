@@ -96,7 +96,7 @@ function HabitatFinder({
   const evidence = hasNearbyEvidence(ranked);
 
   return (
-    <Card className="space-y-5">
+    <Card id="finder" className="scroll-mt-28 space-y-5">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <h2 className="text-2xl">Habitat Relevance Finder</h2>
