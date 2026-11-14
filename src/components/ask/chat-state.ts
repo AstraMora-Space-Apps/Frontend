@@ -18,11 +18,13 @@ export type AssistantChatMessage = {
 
 export type ChatMessage = UserChatMessage | AssistantChatMessage;
 
+// Each one checked against the live /ask service (flamesight ai/eval_ask.py) for a cited, on-topic answer,
+// and each matches a stub route in src/lib/api.ts ("30%", "smoke", "saffire") so stub mode still answers.
 export const EXAMPLE_QUESTIONS = [
-  "Which tested materials are risky at the Moon Base's 30% oxygen?",
-  "How do Saffire and BASS results compare?",
+  "Does a fire grow faster at 30% oxygen even if the pressure is lower?",
+  "Did the ISS smoke detector detect Kapton and Teflon smoke?",
   "How do smoke particles behave in microgravity?",
-  "What is the lowest oxygen level where a flame was sustained?",
+  "How much carbon monoxide did the Saffire fires produce?",
 ] as const;
 
 /** Validates a ?q= deep-link value. Returns the trimmed question or null. */
