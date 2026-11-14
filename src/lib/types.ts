@@ -39,10 +39,12 @@ export const CitationSchema = z.object({
   paper_title: z.string().min(1),
   investigation: z.string(),
   /** null when the source has no page numbers. */
-  page: z.number().int().positive().nullable(),
+  // Backend types this as Optional[int] with no lower bound; allow 0 so one odd page
+  // cannot fail validation of a whole list. (M7 reconciliation)
+  page: z.number().int().nonnegative().nullable().default(null),
   /** Verbatim source passage. */
   quote: z.string(),
-  source_url: z.string().nullable(),
+  source_url: z.string().nullable().default(null),
 });
 export type Citation = z.infer<typeof CitationSchema>;
 
@@ -63,9 +65,9 @@ export const AskResponseSchema = z.object({
   answer: z.string(),
   /** false = "Not in the data": UI must show NotInData and no answer text. */
   grounded: z.boolean(),
-  citations: z.array(CitationSchema).max(4),
-  evidence: EvidenceSchema.nullable(),
-  latency_ms: z.number().nonnegative().nullable(),
+  citations: z.array(CitationSchema).max(4).default([]),
+  evidence: EvidenceSchema.nullable().default(null),
+  latency_ms: z.number().nonnegative().nullable().default(null),
 });
 export type AskResponse = z.infer<typeof AskResponseSchema>;
 
@@ -80,11 +82,15 @@ export const FuelSchema = z.object({
 });
 export type Fuel = z.infer<typeof FuelSchema>;
 
+/**
+ * Each range is null when the source does not report it (M7: the live backend sends null
+ * for many investigations). The UI shows "Not reported"; never fill in a value.
+ */
 export const ConditionsSchema = z.object({
-  o2_percent: RangeSchema,
-  pressure_psi: RangeSchema,
-  /** null for quiescent-only investigations. */
-  flow_speed_cm_s: RangeSchema.nullable(),
+  o2_percent: RangeSchema.nullable().default(null),
+  pressure_psi: RangeSchema.nullable().default(null),
+  /** null for quiescent-only investigations or when not reported. */
+  flow_speed_cm_s: RangeSchema.nullable().default(null),
 });
 export type Conditions = z.infer<typeof ConditionsSchema>;
 
@@ -94,13 +100,14 @@ export const InvestigationSchema = z.object({
   hardware: z.string(),
   pillar: PillarSchema,
   objective: z.string(),
-  fuels: z.array(FuelSchema),
-  conditions: ConditionsSchema,
-  variables: z.array(z.string()),
-  sensors: z.array(z.string()),
-  citations: z.array(CitationSchema),
-  /** true for stub records (Hard rule 10). */
-  sample: z.boolean(),
+  fuels: z.array(FuelSchema).default([]),
+  /** A missing or null conditions object becomes all-null ranges (shown as "Not reported"). */
+  conditions: z.preprocess((v) => v ?? {}, ConditionsSchema),
+  variables: z.array(z.string()).default([]),
+  sensors: z.array(z.string()).default([]),
+  citations: z.array(CitationSchema).default([]),
+  /** true for stub/seed records (Hard rule 10). Absent means real data. */
+  sample: z.boolean().default(false),
 });
 export type Investigation = z.infer<typeof InvestigationSchema>;
 
@@ -112,18 +119,23 @@ export const TestRecordSchema = z.object({
   investigation_name: z.string(),
   fuel: z.string(),
   fuel_class: FuelClassSchema,
-  flow_direction: FlowDirectionSchema,
-  o2_percent: z.number().min(0).max(100),
-  pressure_psi: z.number().nonnegative(),
-  flow_speed_cm_s: z.number().nonnegative().nullable(),
+  /** null when not reported (M7: most live tests). */
+  flow_direction: FlowDirectionSchema.nullable().default(null),
+  /** null when not reported; such tests are listed but cannot be placed on the Coverage Map. */
+  o2_percent: z.number().min(0).max(100).nullable().default(null),
+  pressure_psi: z.number().nonnegative().nullable().default(null),
+  flow_speed_cm_s: z.number().nonnegative().nullable().default(null),
   platform: PlatformSchema,
-  /** true when the flame was still burning at the end of the run (censored). Hollow marker. */
-  ended_early: z.boolean(),
+  /**
+   * true when the flame was still burning at the end of the run (censored): hollow marker.
+   * null = censoring not reported; shown as "outcome not reported", never as observed.
+   */
+  ended_early: z.boolean().nullable().default(null),
   result: z.string(),
   /** Flame spread rate, mm/s (assumed unit). */
-  spread_rate: z.number().nonnegative().nullable(),
-  citation: CitationSchema.nullable(),
-  sample: z.boolean(),
+  spread_rate: z.number().nonnegative().nullable().default(null),
+  citation: CitationSchema.nullable().default(null),
+  sample: z.boolean().default(false),
 });
 export type TestRecord = z.infer<typeof TestRecordSchema>;
 
@@ -145,9 +157,9 @@ export const InsightSchema = z
     /** safety_impact x evidence_strength x mission_relevance (1 to 125). */
     score: z.number().int().min(1).max(125),
     score_reason: z.string(),
-    citations: z.array(CitationSchema),
-    reviewed: z.boolean(),
-    sample: z.boolean(),
+    citations: z.array(CitationSchema).default([]),
+    reviewed: z.boolean().default(false),
+    sample: z.boolean().default(false),
   })
   .refine((i) => i.score === i.safety_impact * i.evidence_strength * i.mission_relevance, {
     message: "score must equal safety_impact x evidence_strength x mission_relevance",
@@ -196,6 +208,21 @@ export type TestsByFuelClass = Record<FuelClass, TestRecord[]>;
  * Hard rule 2: gas-flame and solid-fuel tests never share axes.
  * Charts must take one bucket from this, never the raw list.
  */
+/** A test with both coordinates reported, so it can be placed on the O2 vs pressure map. */
+export type PlottableTest = TestRecord & { o2_percent: number; pressure_psi: number };
+
+export function isPlottable(t: TestRecord): t is PlottableTest {
+  return t.o2_percent !== null && t.pressure_psi !== null;
+}
+
+/**
+ * Unique key for a test. Backend test ids are only unique within an investigation
+ * (e.g. "1" exists in BASS and SAME), so pair them with the investigation id. (M7)
+ */
+export function testKey(t: Pick<TestRecord, "id" | "investigation_id">): string {
+  return `${t.investigation_id}:${t.id}`;
+}
+
 export function splitByFuelClass(tests: readonly TestRecord[]): TestsByFuelClass {
   const out: TestsByFuelClass = { solid: [], gas: [], liquid: [] };
   for (const t of tests) out[t.fuel_class].push(t);
