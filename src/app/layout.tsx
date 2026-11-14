@@ -26,6 +26,9 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   themeColor: THEME_COLOR,
   colorScheme: "dark",
+  // Mobile keyboards resize the layout so sticky UI (the Ask composer) stays visible.
+  interactiveWidget: "resizes-content",
+  viewportFit: "cover",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
