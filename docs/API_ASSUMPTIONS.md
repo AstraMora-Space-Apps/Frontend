@@ -6,7 +6,7 @@ Fix mismatches **only** in `src/lib/types.ts`, `src/lib/api.ts` and `src/stub/*.
 
 ## How to switch to live
 
-1. Set `NEXT_PUBLIC_USE_STUB=false` and `NEXT_PUBLIC_API_BASE_URL=<deployed FastAPI URL, no trailing slash>` (in `.env.local` locally, and in Vercel project settings for production). Optional: `NEXT_PUBLIC_API_TIMEOUT_MS` (default 10000).
+1. Set `NEXT_PUBLIC_USE_STUB=false` and `NEXT_PUBLIC_API_BASE_URL=<deployed FastAPI URL, no trailing slash>` (in `.env.local` locally, and in Vercel project settings for production). Optional: `NEXT_PUBLIC_API_TIMEOUT_MS` (default 10000). Optional: `NEXT_PUBLIC_SITE_URL` (public site URL) so Open Graph images, robots and the sitemap use absolute URLs; without it the sitemap is empty and Next uses its default base URL.
 2. CORS: the backend allows `*`, `https://*.vercel.app` and `http://localhost:*` (checked in M7). If a custom domain is blocked, ask Thejitha to add it to `ALLOWED_ORIGINS`.
 3. CORS fallback (off by default): set `API_PROXY_TARGET=<backend URL>` (server env) and `NEXT_PUBLIC_API_BASE_URL=/api`. Next.js then proxies `/api/*` to the backend.
 4. Open `/dev/contract` locally (`npm run dev`). Every row should pass with `source: live`.
