@@ -89,13 +89,26 @@ export type AskState = QueryState<AskResponse> & {
   /** The question that produced the current state. */
   question: string | undefined;
   submit: (question: string) => void;
+  /**
+   * Same request and cache as `submit`, but resolves with the ApiResult (never rejects).
+   * For UIs that keep their own list of answers, e.g. the Ask chat.
+   */
+  askAsync: (question: string) => Promise<ApiResult<AskResponse>>;
   reset: () => void;
 };
 
 export function useAsk(): AskState {
   const m = useMutation({ mutationFn: askCached });
   const [question, setQuestion] = useState<string>();
-  const { mutate, reset: resetMutation } = m;
+  const { mutate, mutateAsync, reset: resetMutation } = m;
+
+  const askAsync = useCallback(
+    (q: string) => {
+      setQuestion(q);
+      return mutateAsync(q);
+    },
+    [mutateAsync],
+  );
 
   const submit = useCallback(
     (q: string) => {
@@ -112,5 +125,5 @@ export function useAsk(): AskState {
     if (question) mutate(question);
   }, [mutate, question]);
 
-  return { ...unwrap(m.data, m.isPending, retry), question, submit, reset };
+  return { ...unwrap(m.data, m.isPending, retry), question, submit, askAsync, reset };
 }
