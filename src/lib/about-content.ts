@@ -27,7 +27,7 @@ export const VERSION_STATEMENT = "v0.1-hackathon, preliminary / unverified";
 
 /** Shown on /insights. Owner (team): confirm this matches the review process. */
 export const INSIGHTS_PROCESS_NOTE =
-  "Insights are proposed by an AI model and ranked by the formula above. Items marked Reviewed were checked by a human: an AI model proposes the three scores and the science lead reviews the top 20 by hand.";
+  "Insights are proposed by an AI model and ranked by the formula above. Items marked Reviewed were checked by a human: an AI model proposes the safety-impact score and the wording, the other two scores are computed by rules, and a team member reviewed the top 33 by hand.";
 
 /* ---------------------------------------------------------------- sections */
 
