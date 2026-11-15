@@ -1,7 +1,7 @@
 /**
  * Safety-margin helpers (M8, preliminary). Pure functions, no data fetching.
  *
- * Definitions (to be confirmed by the science lead):
+ * Definitions (confirmed by the science lead, 15 Nov):
  * - Oxygen limit = lowest O2 (percent) at which a flame was sustained in the tests.
  * - A "bound" limit means the true limit was not reached (flame still burning at the lowest
  *   O2 tested), so the true limit is AT OR BELOW the value shown.
