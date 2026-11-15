@@ -17,15 +17,15 @@ export const ACCURACY: {
   measured_on: string | null;
 } = { questions: 20, plain_rag: null, table_filtered_rag: null, measured_on: null };
 
-// Owner (AI/ML): set the backend model name. While null the page omits it.
+// set the backend model name. While null the page omits it.
 export const AI_MODEL_NAME: string | null = null;
 
-// Owner (team): set the public GitHub repository URL. While null the link is hidden.
+// set the public GitHub repository URL. While null the link is hidden.
 export const REPO_URL: string | null = null;
 
 export const VERSION_STATEMENT = "v0.1-hackathon, preliminary / unverified";
 
-/** Shown on /insights. Owner (team): confirm this matches the review process. */
+/** Shown on /insights. */
 export const INSIGHTS_PROCESS_NOTE =
   "Insights are proposed by an AI model and ranked by the formula above. Items marked Reviewed were checked by a human: an AI model proposes the safety-impact score and the wording, the other two scores are computed by rules, and a team member reviewed the top 33 by hand.";
 
@@ -147,7 +147,7 @@ export const SOURCES: readonly SourceLink[] = [
     note: "Public research papers and technical reports.",
   },
   {
-    // Owner (team): add the Space Apps challenge Resources tab links. Hidden while url is null.
+    // add the Space Apps challenge Resources tab links. Hidden while url is null.
     label: "Space Apps challenge Resources tab links: to be added",
     url: null,
     note: "Placeholder.",
@@ -157,7 +157,7 @@ export const SOURCES: readonly SourceLink[] = [
 export const AI_SECTION = {
   paragraphs: [
     "FlameSight uses a language model to write answers, and it may only use passages retrieved from the indexed research.",
-    "The same model proposes the three insight scores; the science lead reviews the top insights by hand.",
+    "The same model proposes each insight's safety-impact score and wording; the other two scores are computed by rules, and the top 33 insights were reviewed by hand.",
   ],
   independence:
     "FlameSight is an independent hackathon project. It is not affiliated with or endorsed by NASA. NASA data is public; no NASA logos or insignia are used.",

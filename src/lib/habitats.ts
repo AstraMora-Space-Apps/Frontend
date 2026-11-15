@@ -1,8 +1,8 @@
 /**
  * Habitat reference atmospheres. The ONLY source of habitat numbers in the app.
  *
- * Centre values come from the project plan. TBC habitats have no numbers until the
- * science lead confirms them: they are listed (disabled) but never drawn or ranked.
+ * Centre values come from the project plan. TBC habitats have no confirmed numbers yet:
+ * they are listed (disabled) but never drawn or ranked.
  *
  * The *_halfwidth values are DISPLAY BANDS ONLY: they size the shaded boxes on the
  * Coverage Map and the "tests in band" count. They are illustrative reference bands,
@@ -41,7 +41,7 @@ export type PendingHabitat = HabitatBase & {
 
 export type Habitat = ConfirmedHabitat | PendingHabitat;
 
-const PENDING_NOTE = "Values to be confirmed with the science lead.";
+const PENDING_NOTE = "Values pending.";
 
 export const HABITATS: readonly Habitat[] = [
   {
