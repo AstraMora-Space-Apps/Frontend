@@ -44,7 +44,7 @@ function parseHabitats(raw: string | null): ConfirmedHabitat[] {
 }
 
 const HOW_TO_READ =
-  "The oxygen limit is the lowest oxygen level at which a flame was sustained in the tests. A lower limit in microgravity means less safety margin. Bars marked 'at least' are bounds: the flame was still burning at the lowest oxygen tested. Definition preliminary, to be confirmed by the science lead.";
+  "The oxygen limit is the lowest oxygen level at which a flame was sustained in the tests. A lower limit in microgravity means less safety margin. Bars marked 'at least' are bounds: the flame was still burning at the lowest oxygen tested. Definition confirmed by the science lead (15 Nov).";
 
 function NotAvailable() {
   return (
